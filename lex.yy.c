@@ -819,57 +819,57 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 YY_RULE_SETUP
 #line 15 "lexica.l"
-{return TIF;}
+{return TOKEN_IF;}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
 #line 16 "lexica.l"
-{return TELSE;}
+{return TOKEN_ELSE;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
 #line 17 "lexica.l"
-{return TFOR;}
+{return TOKEN_FOR;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
 #line 18 "lexica.l"
-{return TWHILE;}
+{return TOKEN_WHILE;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
 #line 19 "lexica.l"
-{return TINT;}
+{return TOKEN_INT;}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
 #line 20 "lexica.l"
-{return TDOUBLE;}
+{return TOKEN_DOUBLE;}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
 #line 21 "lexica.l"
-{return TMESTRE;}
+{return TOKEN_MESTRE;}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
 #line 22 "lexica.l"
-{return TINCLUDE;}
+{return TOKEN_INCLUDE;}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
 #line 23 "lexica.l"
-{return TPRINT;}
+{return TOKEN_PRINT;}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
 #line 24 "lexica.l"
-{return TRETURN;}
+{return TOKEN_RETURN;}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
 #line 25 "lexica.l"
-{return TCLASS;}
+{return TOKEN_CLASS;}
 	YY_BREAK
 case 12:
 /* rule 12 can match eol */
@@ -880,127 +880,127 @@ YY_RULE_SETUP
 case 13:
 YY_RULE_SETUP
 #line 27 "lexica.l"
-{return TINTEGER;}
+{return TOKEN_INTEGER;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
 #line 28 "lexica.l"
-{return TIDENTIFICADOR;}
+{return TOKEN_IDENTIFICADOR;}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
 #line 29 "lexica.l"
-{return TDOUBLE;}
+{return TOKEN_DOUBLE;}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
 #line 30 "lexica.l"
-{return TSUM;}
+{return TOKEN_SUM;}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
 #line 31 "lexica.l"
-{return TSUB;}
+{return TOKEN_SUB;}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
 #line 32 "lexica.l"
-{return TMULT;}
+{return TOKEN_MULT;}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
 #line 33 "lexica.l"
-{return TDIV;}
+{return TOKEN_DIV;}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
 #line 34 "lexica.l"
-{return TEQUAL;}
+{return TOKEN_EQUAL;}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
 #line 35 "lexica.l"
-{return TINCREMENT;}
+{return TOKEN_INCREMENT;}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
 #line 36 "lexica.l"
-{return TGT;}
+{return TOKEN_GT;}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
 #line 37 "lexica.l"
-{return TLT;}
+{return TOKEN_LT;}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
 #line 38 "lexica.l"
-{return TGE;}
+{return TOKEN_GE;}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
 #line 39 "lexica.l"
-{return TLE;}
+{return TOKEN_LE;}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
 #line 40 "lexica.l"
-{return TNE;}
+{return TOKEN_NE;}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
 #line 41 "lexica.l"
-{return TXOR;}
+{return TOKEN_XOR;}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
 #line 42 "lexica.l"
-{return TOR;}
+{return TOKEN_OR;}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
 #line 43 "lexica.l"
-{return TAND;}
+{return TOKEN_AND;}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
 #line 44 "lexica.l"
-{return TASSIGN;}
+{return TOKEN_ASSIGN;}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
 #line 45 "lexica.l"
-{return TLBRACE;}
+{return TOKEN_LBRACE;}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
 #line 46 "lexica.l"
-{return TRBRACE;}
+{return TOKEN_RBRACE;}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
 #line 47 "lexica.l"
-{return TDOT;}
+{return TOKEN_DOT;}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
 #line 48 "lexica.l"
-{return TSEMICOLON;}
+{return TOKEN_SEMICOLON;}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
 #line 49 "lexica.l"
-{return TCOMMA;}
+{return TOKEN_COMMA;}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
 #line 50 "lexica.l"
-{return TLPAREN;}
+{return TOKEN_LPAREN;}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
 #line 51 "lexica.l"
-{return TRPAREN;}
+{return TOKEN_RPAREN;}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
