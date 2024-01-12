@@ -12,43 +12,43 @@ FLOAT[0-9]+.[0-9]*
 
 %%
 
-"if"                 {return TIF;}
-"else"               {return TELSE;}
-"for"                 {return TFOR;}
-"while"               {return TWHILE;}
-"int"                 {return TINT;}
-"double"              {return TDOUBLE;}
-"mestre"              {return TMESTRE;}
-"#include"            {return TINCLUDE;}
-"print"               {return TPRINT;}
-"return"              {return TRETURN;}
-"class"               {return TCLASS;}
+"if"                 {return TOKEN_IF;}
+"else"               {return TOKEN_ELSE;}
+"for"                 {return TOKEN_FOR;}
+"while"               {return TOKEN_WHILE;}
+"int"                 {return TOKEN_INT;}
+"double"              {return TOKEN_DOUBLE;}
+"mestre"              {return TOKEN_MESTRE;}
+"#include"            {return TOKEN_INCLUDE;}
+"print"               {return TOKEN_PRINT;}
+"return"              {return TOKEN_RETURN;}
+"class"               {return TOKEN_CLASS;}
 [ \t\n]                /* Ignorar espaços em branco */ ;
-{DIGIT}                {return TINTEGER;}
-{ID}                   {return TIDENTIFICADOR;}
-{FLOAT}                {return TDOUBLE;}
-"+"                   {return TSUM;}
-"-"                   {return TSUB;}
-"*"                   {return TMULT;}
-"/"                   {return TDIV;}
-"=="                  {return TEQUAL;}
-"++"                  {return TINCREMENT;}
-">"                   {return TGT;}
-"<"                   {return TLT;}
-">="                  {return TGE;}
-"<="                  {return TLE;}
-"!="                  {return TNE;}
-"^"                   {return TXOR;}
-"||"                  {return TOR;}
-"&&"                  {return TAND;}
-"="                   {return TASSIGN;}
-"{"                   {return TLBRACE;}
-"}"                   {return TRBRACE;}
-"."                   {return TDOT;}
-";"                   {return TSEMICOLON;}
-","                   {return TCOMMA;}
-"("                   {return TLPAREN;}
-")"                   {return TRPAREN;}
+{DIGIT}                {return TOKEN_INTEGER;}
+{ID}                   {return TOKEN_IDENTIFICADOR;}
+{FLOAT}                {return TOKEN_DOUBLE;}
+"+"                   {return TOKEN_SUM;}
+"-"                   {return TOKEN_SUB;}
+"*"                   {return TOKEN_MULT;}
+"/"                   {return TOKEN_DIV;}
+"=="                  {return TOKEN_EQUAL;}
+"++"                  {return TOKEN_INCREMENT;}
+">"                   {return TOKEN_GT;}
+"<"                   {return TOKEN_LT;}
+">="                  {return TOKEN_GE;}
+"<="                  {return TOKEN_LE;}
+"!="                  {return TOKEN_NE;}
+"^"                   {return TOKEN_XOR;}
+"||"                  {return TOKEN_OR;}
+"&&"                  {return TOKEN_AND;}
+"="                   {return TOKEN_ASSIGN;}
+"{"                   {return TOKEN_LBRACE;}
+"}"                   {return TOKEN_RBRACE;}
+"."                   {return TOKEN_DOT;}
+";"                   {return TOKEN_SEMICOLON;}
+","                   {return TOKEN_COMMA;}
+"("                   {return TOKEN_LPAREN;}
+")"                   {return TOKEN_RPAREN;}
 
 
 
