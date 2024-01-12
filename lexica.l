@@ -1,58 +1,60 @@
 %{
 #include <stdio.h>
+#include "node.h"
+#include "parser.hpp"
+#define SAVE_TOKEN yylval.string = new std::string(yytext, yyleng)
+#define TOKEN(t) (yylval.token = t)
+extern "C" int yywrap() { }
 %}
 
 %option noyywrap
 %option case-insensitive
 
 DIGIT [0-9]+
-LETTER [a-zA-Z]
 ID [a-zA-Z][a-zA-Z0-9]*
-WHITESPACE [ ]
-
-ABERTURA [(]
-FECHAMENTO [)]
-COMENTARIO_I [/][*]
-COMENTARIO_F [*/]
+FLOAT[0-9]+.[0-9]*           
 
 %%
 
-if|else {printf("[%s] -> CONDICIONAL\n", yytext);}
-for|while {printf("[%s] -> REPETICAO\n", yytext);}
-int|float|double {printf("[%s] -> TIPO DA VARIAVEL\n", yytext);}
-main {printf("[%s] -> FUNCAO PRINCIPAL\n", yytext);}
-#include {printf("[%s] -> FUNCAO DE ENTRADA DA BIBLIOTECA\n", yytext);}
-printf {printf("[%s] -> FUNCAO DE SAIDA\n", yytext);}
-return {printf("[%s] -> FUNCAO DE RETORNO\n", yytext);}
-stdio.h {printf("[%s] -> BIBLIOTECA\n", yytext);}
+[ \t\n]                /* Ignorar espaços em branco */ ;
+{DIGIT}                SAVE_TOKEN; return TINTEGER;
+{ID}                   SAVE_TOKEN; return TIDENTIFICADOR;
+{FLOAT}                SAVE_TOKEN; return TDOUBLE;
 
-"+" {printf("[%s] -> OPERADOR SOMA\n", yytext);}
-"-" {printf("[%s] -> OPERADOR SUBTRACAO\n", yytext);}
-"*" {printf("[%s] -> OPERADOR MULTIPLICACAO\n", yytext);}
-"/" {printf("[%s] -> OPERADOR DIVISAO\n", yytext);}
-"==" {printf("[%s] -> OPERADOR IGUALDADE\n", yytext);}
-"++" {printf("[%s] -> OPERADOR INCREMENTO\n", yytext);}
-">" {printf("[%s] -> OPERADOR MAIOR QUE\n", yytext);}
-"<" {printf("[%s] -> OPERADOR MENOR QUE\n", yytext);}
-">=" {printf("[%s] -> OPERADOR MAIOR OU IGUAL QUE\n", yytext);}
-"<=" {printf("[%s] -> OPERADOR MENOR OU IGUAL QUE\n", yytext);}
-"!=" {printf("[%s] -> OPERADOR DIFERENCA\n", yytext);}
-"^" {printf("[%s] -> OU EXCLUSIVO\n", yytext);}
-"||" {printf("[%s] -> OU LOGICO\n", yytext);}
-"&&" {printf("[%s] -> E LOGICO\n", yytext);}
-"=" {printf("[%s] -> ATRIBUICAO\n", yytext);}
-"{" {printf("[%s] -> ABRE CHAVES\n", yytext);}
-"}" {printf("[%s] -> FECHA CHAVES\n", yytext);}
-"." {printf("[%s] -> PONTO\n", yytext);}
-";" {printf("[%s] -> PONTO E VIRGULA\n", yytext);}
-"," {printf("[%s] -> VIRGULA\n", yytext);}
+if|else               return TOKEN(TIF);
+for|while             return TOKEN(TFOR);
+int|double            return TOKEN(TTIPO);
+mestre                return TOKEN(TFUNCAO);
+#include              return TOKEN(TINCLUDE);
+print                 return TOKEN(TPRINT);
+return                return TOKEN(TRETURN);
+class                 return TOKEN(TCLASS);
 
-{ABERTURA} {printf("[%s] -> ABRE PARENTESE\n", yytext);}
-{FECHAMENTO} {printf("[%s] -> FECHA PARENTESIS\n", yytext);}
-{COMENTARIO_I}[^*]*[*]+([^/*][^*]*[*]+)*{COMENTARIO_F} {printf("[%s] -> COMENTARIO\n", yytext);}
-{DIGIT}+ {printf("[%s] -> DIGITO\n", yytext);}
-{ID} {printf("[%s] -> IDENTIFICADOR\n", yytext);}
-{WHITESPACE} { /* Ignorar espaços em branco */ }
+"+"                   return TOKEN(TSUM);
+"-"                   return TOKEN(TSUB);
+"*"                   return TOKEN(TMULT);
+"/"                   return TOKEN(TDIV);
+"=="                  return TOKEN(TEQUAL);
+"++"                  return TOKEN(TINCREMENT);
+">"                   return TOKEN(TGT);
+"<"                   return TOKEN(TLT);
+">="                  return TOKEN(TGE);
+"<="                  return TOKEN(TLE);
+"!="                  return TOKEN(TNE);
+"^"                   return TOKEN(TXOR);
+"||"                  return TOKEN(TOR);
+"&&"                  return TOKEN(TAND);
+"="                   return TOKEN(TASSIGN);
+"{"                   return TOKEN(TLBRACE);
+"}"                   return TOKEN(TRBRACE);
+"."                   return TOKEN(TDOT);
+";"                   return TOKEN(TSEMICOLON);
+","                   return TOKEN(TCOMMA);
+"("                   return TOKEN(TLPAREN);
+")"                   return TOKEN(TRPAREN);
+
+return|if|else|for|while|int|double|mestre|#include|print|return    SAVE_TOKEN; return TOKEN(TPALAVRA_RESERVADA);
+
 
 %%
 int main(){
