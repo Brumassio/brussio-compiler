@@ -1,6 +1,6 @@
 all: brussio
 
-CPP=g++
+CPP=gcc
 FLEX=flex
 BISON=bison
 

@@ -93,15 +93,16 @@ int main(){
 %token TOKEN_FOR
 %token TOKEN_WHILE
 %token TOKEN_INT
+%token TOKEN_VOID
 %token TOKEN_IDOUBLE
 %token TOKEN_MESTRE
 %token TOKEN_INCLUDE
 %token TOKEN_PRINT
 %token TOKEN_RETURN
 %token TOKEN_CLASS
-%token TOKEN_INTEGER
-%token TOKEN_IDENTIFICADOR
-%token TOKEN_DOUBLE
+%token <integer> TOKEN_INTEGER
+%token <identifier> TOKEN_IDENTIFICADOR
+%token <floating_point> TOKEN_DOUBLE
 %token TOKEN_SUM
 %token TOKEN_SUB
 %token TOKEN_MULT
@@ -136,15 +137,15 @@ int main(){
 
 %% /* Grammar rules and actions follow */
 
-calc: /* regra vazia */
-    | calc expr '\n'
-    | calc '\n';
+statement: /* regra vazia */
+         | statement exp '\n'
+         | statement '\n';
 
 exp:  
       NUM
     | VAR                { $$ = $1->value.var;}
     | VAR '=' exp        { $$ = $3; $1->value.var = $3;}
-    | TOKEN_IDENTIFICADOR {$$ = $1;} /* Adapte conforme necessário */
+    | TOKEN_IDENTIFICADOR {$$ = $1;} 
     | exp TOKEN_SUM exp {$$ = $1 + $3;}
     | exp TOKEN_SUB exp {$$ = $1 - $3;}
     | exp TOKEN_MULT exp {$$ = $1 * $3;}
@@ -156,26 +157,37 @@ exp:
     ;
 
 /* Regras para funções */
-function_declaration: TOKEN_TYPE TOKEN_IDENTIFICADOR '(' parameter_list ')' compound_statement;
+function_declaration: 
+                        |TOKEN_INT TOKEN_IDENTIFICADOR '(' parameter_list ')' compound_statement;
+                        |TOKEN_IDOUBLE TOKEN_IDENTIFICADOR '(' parameter_list ')' compound_statement;
+                        |TOKEN_VOID TOKEN_IDENTIFICADOR '(' parameter_list ')' compound_statement;
 
 parameter_list: /* lista de parâmetros */
                 | parameter_list ',' parameter_declaration
                 | parameter_declaration;
 
-parameter_declaration: TOKEN_TYPE TOKEN_IDENTIFICADOR;
+parameter_declaration: 
+                        |TOKEN_INT TOKEN_IDENTIFICADOR;
+                        |TOKEN_IDOUBLE TOKEN_IDENTIFICADOR;
+
+statement_list: /* regra vazia */
+              | statement_list statement
+              | statement
+              ;
+
 
 compound_statement: '{' statement_list '}';
 
 /* Regras para laços de repetição */
-while_loop: TOKEN_WHILE '(' expression ')' statement;
+while_loop: TOKEN_WHILE '(' exp ')' statement;
 
-for_loop: TOKEN_FOR '(' for_init ';' expression ';' for_update ')' statement;
+for_loop: TOKEN_FOR '(' for_init ';' exp ';' for_update ')' statement;
 
 for_init: /* inicialização do for */
-            | expression;
+            | exp;
 
 for_update: /* atualização do for */
-            | expression;
+            | exp;
 
     
 %%
@@ -184,9 +196,4 @@ for_update: /* atualização do for */
 
 void yyerror(const char *c) {
     printf("ERRO: %s\n", c);
-}
-
-int main(){
-    yyparse();
-    return 0;
 }

@@ -59,48 +59,47 @@ extern int yydebug;
     TOKEN_FOR = 260,               /* TOKEN_FOR  */
     TOKEN_WHILE = 261,             /* TOKEN_WHILE  */
     TOKEN_INT = 262,               /* TOKEN_INT  */
-    TOKEN_IDOUBLE = 263,           /* TOKEN_IDOUBLE  */
-    TOKEN_MESTRE = 264,            /* TOKEN_MESTRE  */
-    TOKEN_INCLUDE = 265,           /* TOKEN_INCLUDE  */
-    TOKEN_PRINT = 266,             /* TOKEN_PRINT  */
-    TOKEN_RETURN = 267,            /* TOKEN_RETURN  */
-    TOKEN_CLASS = 268,             /* TOKEN_CLASS  */
-    TOKEN_INTEGER = 269,           /* TOKEN_INTEGER  */
-    TOKEN_IDENTIFICADOR = 270,     /* TOKEN_IDENTIFICADOR  */
-    TOKEN_DOUBLE = 271,            /* TOKEN_DOUBLE  */
-    TOKEN_SUM = 272,               /* TOKEN_SUM  */
-    TOKEN_SUB = 273,               /* TOKEN_SUB  */
-    TOKEN_MULT = 274,              /* TOKEN_MULT  */
-    TOKEN_DIV = 275,               /* TOKEN_DIV  */
-    TOKEN_EQUAL = 276,             /* TOKEN_EQUAL  */
-    TOKEN_INCREMENT = 277,         /* TOKEN_INCREMENT  */
-    TOKEN_GT = 278,                /* TOKEN_GT  */
-    TOKEN_LT = 279,                /* TOKEN_LT  */
-    TOKEN_GE = 280,                /* TOKEN_GE  */
-    TOKEN_LE = 281,                /* TOKEN_LE  */
-    TOKEN_NE = 282,                /* TOKEN_NE  */
-    TOKEN_XOR = 283,               /* TOKEN_XOR  */
-    TOKEN_OR = 284,                /* TOKEN_OR  */
-    TOKEN_AND = 285,               /* TOKEN_AND  */
-    TOKEN_ASSIGN = 286,            /* TOKEN_ASSIGN  */
-    TOKEN_LBRACE = 287,            /* TOKEN_LBRACE  */
-    TOKEN_RBRACE = 288,            /* TOKEN_RBRACE  */
-    TOKEN_DOT = 289,               /* TOKEN_DOT  */
-    TOKEN_SEMICOLON = 290,         /* TOKEN_SEMICOLON  */
-    TOKEN_COMMA = 291,             /* TOKEN_COMMA  */
-    TOKEN_LPAREN = 292,            /* TOKEN_LPAREN  */
-    TOKEN_RPAREN = 293,            /* TOKEN_RPAREN  */
-    UMINUS = 294                   /* UMINUS  */
+    TOKEN_VOID = 263,              /* TOKEN_VOID  */
+    TOKEN_IDOUBLE = 264,           /* TOKEN_IDOUBLE  */
+    TOKEN_MESTRE = 265,            /* TOKEN_MESTRE  */
+    TOKEN_INCLUDE = 266,           /* TOKEN_INCLUDE  */
+    TOKEN_PRINT = 267,             /* TOKEN_PRINT  */
+    TOKEN_RETURN = 268,            /* TOKEN_RETURN  */
+    TOKEN_CLASS = 269,             /* TOKEN_CLASS  */
+    TOKEN_INTEGER = 270,           /* TOKEN_INTEGER  */
+    TOKEN_IDENTIFICADOR = 271,     /* TOKEN_IDENTIFICADOR  */
+    TOKEN_DOUBLE = 272,            /* TOKEN_DOUBLE  */
+    TOKEN_SUM = 273,               /* TOKEN_SUM  */
+    TOKEN_SUB = 274,               /* TOKEN_SUB  */
+    TOKEN_MULT = 275,              /* TOKEN_MULT  */
+    TOKEN_DIV = 276,               /* TOKEN_DIV  */
+    TOKEN_EQUAL = 277,             /* TOKEN_EQUAL  */
+    TOKEN_INCREMENT = 278,         /* TOKEN_INCREMENT  */
+    TOKEN_GT = 279,                /* TOKEN_GT  */
+    TOKEN_LT = 280,                /* TOKEN_LT  */
+    TOKEN_GE = 281,                /* TOKEN_GE  */
+    TOKEN_LE = 282,                /* TOKEN_LE  */
+    TOKEN_NE = 283,                /* TOKEN_NE  */
+    TOKEN_XOR = 284,               /* TOKEN_XOR  */
+    TOKEN_OR = 285,                /* TOKEN_OR  */
+    TOKEN_AND = 286,               /* TOKEN_AND  */
+    TOKEN_ASSIGN = 287,            /* TOKEN_ASSIGN  */
+    TOKEN_LBRACE = 288,            /* TOKEN_LBRACE  */
+    TOKEN_RBRACE = 289,            /* TOKEN_RBRACE  */
+    TOKEN_DOT = 290,               /* TOKEN_DOT  */
+    TOKEN_SEMICOLON = 291,         /* TOKEN_SEMICOLON  */
+    TOKEN_COMMA = 292,             /* TOKEN_COMMA  */
+    TOKEN_LPAREN = 293,            /* TOKEN_LPAREN  */
+    TOKEN_RPAREN = 294,            /* TOKEN_RPAREN  */
+    NUM = 295,                     /* NUM  */
+    VAR = 296,                     /* VAR  */
+    FUN = 297,                     /* FUN  */
+    UMINUS = 298                   /* UMINUS  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
 
 /* Value type.  */
-#if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
-# define YYSTYPE_IS_TRIVIAL 1
-# define YYSTYPE_IS_DECLARED 1
-#endif
 
 
 extern YYSTYPE yylval;

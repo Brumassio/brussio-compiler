@@ -1,8 +1,7 @@
 %{
     #include <stdio.h>
-    #include <iostream>
     #include "syntactic.tab.h"
-extern "C" int yywrap() {return 0;}
+extern "C" int yywrap(){return 0;}
 %}
 
 %option yylineno
@@ -19,6 +18,7 @@ FLOAT[0-9]+.[0-9]*
 "while"               {return TOKEN_WHILE;}
 "int"                 {return TOKEN_INT;}
 "double"              {return TOKEN_IDOUBLE;}
+"void"                 {return TOKEN_VOID;} 
 "mestre"              {return TOKEN_MESTRE;}
 "#include"            {return TOKEN_INCLUDE;}
 "print"               {return TOKEN_PRINT;}
