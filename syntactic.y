@@ -75,56 +75,56 @@ void free_symbols() {
     }
 }
 
-void yyerror(const char *c) {
-    printf("ERRO: %s\n", c);
-}
+
+int yylex();
+int yywrap(); 
+
+
 
 extern int yylex();
 extern FILE *yyin;
 
-int main(){
-    yyparse();
-    return 0;
-}
+
 %}
 
-%token TOKEN_IF
-%token TOKEN_ELSE
-%token TOKEN_FOR
-%token TOKEN_WHILE
-%token TOKEN_INT
-%token TOKEN_VOID
-%token TOKEN_IDOUBLE
-%token TOKEN_MESTRE
-%token TOKEN_INCLUDE
-%token TOKEN_PRINT
-%token TOKEN_RETURN
-%token TOKEN_CLASS
-%token <integer> TOKEN_INTEGER
-%token <identifier> TOKEN_IDENTIFICADOR
-%token <floating_point> TOKEN_DOUBLE
-%token TOKEN_SUM
-%token TOKEN_SUB
-%token TOKEN_MULT
-%token TOKEN_DIV
-%token TOKEN_EQUAL
-%token TOKEN_INCREMENT
-%token TOKEN_GT
-%token TOKEN_LT
-%token TOKEN_GE
-%token TOKEN_LE
-%token TOKEN_NE
-%token TOKEN_XOR
-%token TOKEN_OR
-%token TOKEN_AND
-%token TOKEN_ASSIGN
-%token TOKEN_LBRACE
-%token TOKEN_RBRACE
-%token TOKEN_DOT
-%token TOKEN_SEMICOLON
-%token TOKEN_COMMA
-%token TOKEN_LPAREN
-%token TOKEN_RPAREN
+%token <nd_obj> TOKEN_IF
+%token <nd_obj> TOKEN_ELSE
+%token <nd_obj> TOKEN_FOR
+%token <nd_obj> TOKEN_WHILE
+%token <nd_obj> TOKEN_INT
+%token <nd_obj> TOKEN_VOID
+%token <nd_obj> TOKEN_IDOUBLE
+%token <nd_obj> TOKEN_MESTRE
+%token <nd_obj> TOKEN_INCLUDE
+%token <nd_obj> TOKEN_PRINT
+%token <nd_obj> TOKEN_RETURN
+%token <nd_obj> TOKEN_CLASS
+%token <nd_obj> TOKEN_INTEGER
+%token <nd_obj> TOKEN_CHAR
+%token <nd_obj> TOKEN_IDENTIFICADOR
+%token <nd_obj> TOKEN_DOUBLE
+%token <nd_obj> TOKEN_SUM
+%token <nd_obj> TOKEN_SUB
+%token <nd_obj> TOKEN_MULT
+%token <nd_obj> TOKEN_DIV
+%token <nd_obj> TOKEN_EQUAL
+%token <nd_obj> TOKEN_INCREMENT
+%token <nd_obj> TOKEN_GT
+%token <nd_obj> TOKEN_LT
+%token <nd_obj> TOKEN_GE
+%token <nd_obj> TOKEN_LE
+%token <nd_obj> TOKEN_NE
+%token <nd_obj> TOKEN_XOR
+%token <nd_obj> TOKEN_OR
+%token <nd_obj> TOKEN_AND
+%token <nd_obj> TOKEN_ASSIGN
+%token <nd_obj> TOKEN_LBRACE
+%token <nd_obj> TOKEN_RBRACE
+%token <nd_obj> TOKEN_DOT
+%token <nd_obj> TOKEN_PONTOEVIRGULA
+%token <nd_obj> TOKEN_VIRGULA
+%token <nd_obj> TOKEN_LPAREN
+%token <nd_obj> TOKEN_RPAREN
 
 %token <double> NUM
 %token <symrec*> VAR FUN
@@ -136,6 +136,14 @@ int main(){
 %nonassoc UMINUS
 
 %% /* Grammar rules and actions follow */
+
+declarations: declarations declaration | declaration;
+
+declaration: type names ';';
+
+type: TOKEN_INTEGER | TOKEN_CHAR | TOKEN_DOUBLE | TOKEN_VOID;
+
+names: TOKEN_IDENTIFICADOR | names ',' TOKEN_IDENTIFICADOR;
 
 statement: /* regra vazia */
          | statement exp '\n'
@@ -169,6 +177,7 @@ parameter_list: /* lista de parâmetros */
 parameter_declaration: 
                         |TOKEN_INT TOKEN_IDENTIFICADOR;
                         |TOKEN_IDOUBLE TOKEN_IDENTIFICADOR;
+                        |TOKEN_CHAR TOKEN_IDENTIFICADOR;
 
 statement_list: /* regra vazia */
               | statement_list statement
@@ -183,10 +192,10 @@ while_loop: TOKEN_WHILE '(' exp ')' statement;
 
 for_loop: TOKEN_FOR '(' for_init ';' exp ';' for_update ')' statement;
 
-for_init: /* inicialização do for */
+for_init:
             | exp;
 
-for_update: /* atualização do for */
+for_update: 
             | exp;
 
     
@@ -196,4 +205,9 @@ for_update: /* atualização do for */
 
 void yyerror(const char *c) {
     printf("ERRO: %s\n", c);
+}
+
+int main(){
+    yyparse();
+    return 0;
 }
