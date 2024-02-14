@@ -19,10 +19,12 @@ FLOAT[0-9]+.[0-9]*
 "char"                {return TOKEN_CHAR;}
 "double"              {return TOKEN_IDOUBLE;}
 "void"                 {return TOKEN_VOID;} 
-"mestre"              {return TOKEN_MESTRE;}
+"master"              {return TOKEN_MASTER;}
 "#include"            {return TOKEN_INCLUDE;}
 "print"               {return TOKEN_PRINT;}
 "return"              {return TOKEN_RETURN;}
+"break"               {return TOKEN_BREAK;}
+"continue"            {return TOKEN_CONTINUE;}
 "class"               {return TOKEN_CLASS;}
 [ \t\n]                /* Ignorar espaços em branco */ ;
 {DIGIT}                {return TOKEN_INTEGER;}
@@ -34,6 +36,7 @@ FLOAT[0-9]+.[0-9]*
 "/"                   {return TOKEN_DIV;}
 "=="                  {return TOKEN_EQUAL;}
 "++"                  {return TOKEN_INCREMENT;}
+"--"                  {return TOKEN_DECREMENT;}
 ">"                   {return TOKEN_GT;}
 "<"                   {return TOKEN_LT;}
 ">="                  {return TOKEN_GE;}

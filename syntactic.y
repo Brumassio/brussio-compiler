@@ -2,6 +2,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+int yylex();
+int yywrap(); 
+void yyerror();
 
 /* Estrutura para os símbolos na tabela */
 typedef struct symrec {
@@ -76,9 +79,6 @@ void free_symbols() {
 }
 
 
-int yylex();
-int yywrap(); 
-
 
 
 extern int yylex();
@@ -94,10 +94,12 @@ extern FILE *yyin;
 %token <nd_obj> TOKEN_INT
 %token <nd_obj> TOKEN_VOID
 %token <nd_obj> TOKEN_IDOUBLE
-%token <nd_obj> TOKEN_MESTRE
+%token <nd_obj> TOKEN_MASTER
 %token <nd_obj> TOKEN_INCLUDE
 %token <nd_obj> TOKEN_PRINT
 %token <nd_obj> TOKEN_RETURN
+%token <nd_obj> TOKEN_BREAK
+%token <nd_obj> TOKEN_CONTINUE
 %token <nd_obj> TOKEN_CLASS
 %token <nd_obj> TOKEN_INTEGER
 %token <nd_obj> TOKEN_CHAR
@@ -109,6 +111,7 @@ extern FILE *yyin;
 %token <nd_obj> TOKEN_DIV
 %token <nd_obj> TOKEN_EQUAL
 %token <nd_obj> TOKEN_INCREMENT
+%token <nd_obj> TOKEN_DECREMENT
 %token <nd_obj> TOKEN_GT
 %token <nd_obj> TOKEN_LT
 %token <nd_obj> TOKEN_GE
@@ -126,9 +129,9 @@ extern FILE *yyin;
 %token <nd_obj> TOKEN_LPAREN
 %token <nd_obj> TOKEN_RPAREN
 
-%token <double> NUM
-%token <symrec*> VAR FUN
-%nterm <double>  exp
+//%token <double> NUM
+//%token <symrec*> VAR FUN
+//%nterm <double>  exp
 
 /*  order of operations */
 %left TOKEN_SUB  TOKEN_SUM 
@@ -139,66 +142,87 @@ extern FILE *yyin;
 
 declarations: declarations declaration | declaration;
 
-declaration: type names ';';
+declaration: type names TOKEN_PONTOEVIRGULA;
 
 type: TOKEN_INTEGER | TOKEN_CHAR | TOKEN_DOUBLE | TOKEN_VOID;
 
 names: TOKEN_IDENTIFICADOR | names ',' TOKEN_IDENTIFICADOR;
 
-statement: /* regra vazia */
-         | statement exp '\n'
-         | statement '\n';
 
-exp:  
-      NUM
-    | VAR                { $$ = $1->value.var;}
-    | VAR '=' exp        { $$ = $3; $1->value.var = $3;}
-    | TOKEN_IDENTIFICADOR {$$ = $1;} 
-    | exp TOKEN_SUM exp {$$ = $1 + $3;}
-    | exp TOKEN_SUB exp {$$ = $1 - $3;}
-    | exp TOKEN_MULT exp {$$ = $1 * $3;}
-    | exp TOKEN_DIV exp {$$ = $1 / $3;}
-    | TOKEN_LPAREN exp TOKEN_RPAREN {$$ = $2;}
-    | TOKEN_SUB exp %prec UMINUS {$$ = -$2;}
-    | TOKEN_INTEGER
-    | TOKEN_DOUBLE
-    ;
+exp: term
+           | unary_operator exp
+           | exp binary_operator exp
+           | '(' exp ')'
+           | variable
+           ;
 
-/* Regras para funções */
-function_declaration: 
-                        |TOKEN_INT TOKEN_IDENTIFICADOR '(' parameter_list ')' compound_statement;
-                        |TOKEN_IDOUBLE TOKEN_IDENTIFICADOR '(' parameter_list ')' compound_statement;
-                        |TOKEN_VOID TOKEN_IDENTIFICADOR '(' parameter_list ')' compound_statement;
+term : expression_increment
+     | expression_decrement
+     ;
 
-parameter_list: /* lista de parâmetros */
-                | parameter_list ',' parameter_declaration
-                | parameter_declaration;
+unary_operator : TOKEN_INCREMENT
+               | TOKEN_DECREMENT
+               | '!'
+               ;
 
-parameter_declaration: 
-                        |TOKEN_INT TOKEN_IDENTIFICADOR;
-                        |TOKEN_IDOUBLE TOKEN_IDENTIFICADOR;
-                        |TOKEN_CHAR TOKEN_IDENTIFICADOR;
+expression_increment : TOKEN_INCREMENT exp
+                      ;
 
-statement_list: /* regra vazia */
-              | statement_list statement
-              | statement
-              ;
+expression_decrement : TOKEN_DECREMENT exp
+                      ;
+
+binary_operator : '+'
+                | '-'
+                | '*'
+                | '/'
+                | '||'
+                | '&&'
+                | '=='
+                | '!='
+                | '>'
+                | '<'
+                | '>='
+                | '<='
+                ;
 
 
-compound_statement: '{' statement_list '}';
+variable: TOKEN_IDENTIFICADOR ;
 
-/* Regras para laços de repetição */
-while_loop: TOKEN_WHILE '(' exp ')' statement;
+assigment: variable TOKEN_ASSIGN exp TOKEN_PONTOEVIRGULA ; 
 
-for_loop: TOKEN_FOR '(' for_init ';' exp ';' for_update ')' statement;
+for_stat: TOKEN_FOR '(' exp TOKEN_PONTOEVIRGULA exp TOKEN_PONTOEVIRGULA exp')' tail ;
 
-for_init:
-            | exp;
+while_stat: TOKEN_WHILE '(' exp ')' tail ;
 
-for_update: 
-            | exp;
 
-    
+//condicionais 
+if_stat: TOKEN_IF '(' exp ')' tail else_if_part else_part ;
+
+else_if_part: 
+   else_if_part TOKEN_ELSE TOKEN_IF '(' exp ')' tail |
+   TOKEN_ELSE TOKEN_IF '(' exp ')' tail  |
+   /* empty */
+ ; 
+else_part: TOKEN_ELSE tail | /* empty */ ; 
+
+
+tail: statement | '{' statements '}' ;
+
+statements: statements statement | statement;
+
+// statement  é tudo que pode ter dentro da main ou de uma função
+statement: if_stat
+        | for_stat
+        | while_stat 
+        | assigment 
+        | TOKEN_CONTINUE TOKEN_PONTOEVIRGULA 
+        | TOKEN_BREAK  TOKEN_PONTOEVIRGULA
+        | TOKEN_RETURN  TOKEN_PONTOEVIRGULA;
+
+
+
+
+
 %%
 
 
