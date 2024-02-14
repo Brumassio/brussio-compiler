@@ -61,46 +61,62 @@ extern int yydebug;
     TOKEN_INT = 262,               /* TOKEN_INT  */
     TOKEN_VOID = 263,              /* TOKEN_VOID  */
     TOKEN_IDOUBLE = 264,           /* TOKEN_IDOUBLE  */
-    TOKEN_MESTRE = 265,            /* TOKEN_MESTRE  */
+    TOKEN_MASTER = 265,            /* TOKEN_MASTER  */
     TOKEN_INCLUDE = 266,           /* TOKEN_INCLUDE  */
     TOKEN_PRINT = 267,             /* TOKEN_PRINT  */
     TOKEN_RETURN = 268,            /* TOKEN_RETURN  */
-    TOKEN_CLASS = 269,             /* TOKEN_CLASS  */
-    TOKEN_INTEGER = 270,           /* TOKEN_INTEGER  */
-    TOKEN_CHAR = 271,              /* TOKEN_CHAR  */
-    TOKEN_IDENTIFICADOR = 272,     /* TOKEN_IDENTIFICADOR  */
-    TOKEN_DOUBLE = 273,            /* TOKEN_DOUBLE  */
-    TOKEN_SUM = 274,               /* TOKEN_SUM  */
-    TOKEN_SUB = 275,               /* TOKEN_SUB  */
-    TOKEN_MULT = 276,              /* TOKEN_MULT  */
-    TOKEN_DIV = 277,               /* TOKEN_DIV  */
-    TOKEN_EQUAL = 278,             /* TOKEN_EQUAL  */
-    TOKEN_INCREMENT = 279,         /* TOKEN_INCREMENT  */
-    TOKEN_GT = 280,                /* TOKEN_GT  */
-    TOKEN_LT = 281,                /* TOKEN_LT  */
-    TOKEN_GE = 282,                /* TOKEN_GE  */
-    TOKEN_LE = 283,                /* TOKEN_LE  */
-    TOKEN_NE = 284,                /* TOKEN_NE  */
-    TOKEN_XOR = 285,               /* TOKEN_XOR  */
-    TOKEN_OR = 286,                /* TOKEN_OR  */
-    TOKEN_AND = 287,               /* TOKEN_AND  */
-    TOKEN_ASSIGN = 288,            /* TOKEN_ASSIGN  */
-    TOKEN_LBRACE = 289,            /* TOKEN_LBRACE  */
-    TOKEN_RBRACE = 290,            /* TOKEN_RBRACE  */
-    TOKEN_DOT = 291,               /* TOKEN_DOT  */
-    TOKEN_PONTOEVIRGULA = 292,     /* TOKEN_PONTOEVIRGULA  */
-    TOKEN_VIRGULA = 293,           /* TOKEN_VIRGULA  */
-    TOKEN_LPAREN = 294,            /* TOKEN_LPAREN  */
-    TOKEN_RPAREN = 295,            /* TOKEN_RPAREN  */
-    NUM = 296,                     /* NUM  */
-    VAR = 297,                     /* VAR  */
-    FUN = 298,                     /* FUN  */
+    TOKEN_BREAK = 269,             /* TOKEN_BREAK  */
+    TOKEN_CONTINUE = 270,          /* TOKEN_CONTINUE  */
+    TOKEN_CLASS = 271,             /* TOKEN_CLASS  */
+    TOKEN_INTEGER = 272,           /* TOKEN_INTEGER  */
+    TOKEN_CHAR = 273,              /* TOKEN_CHAR  */
+    TOKEN_IDENTIFICADOR = 274,     /* TOKEN_IDENTIFICADOR  */
+    TOKEN_DOUBLE = 275,            /* TOKEN_DOUBLE  */
+    TOKEN_SUM = 276,               /* TOKEN_SUM  */
+    TOKEN_SUB = 277,               /* TOKEN_SUB  */
+    TOKEN_MULT = 278,              /* TOKEN_MULT  */
+    TOKEN_DIV = 279,               /* TOKEN_DIV  */
+    TOKEN_EQUAL = 280,             /* TOKEN_EQUAL  */
+    TOKEN_INCREMENT = 281,         /* TOKEN_INCREMENT  */
+    TOKEN_DECREMENT = 282,         /* TOKEN_DECREMENT  */
+    TOKEN_GT = 283,                /* TOKEN_GT  */
+    TOKEN_LT = 284,                /* TOKEN_LT  */
+    TOKEN_GE = 285,                /* TOKEN_GE  */
+    TOKEN_LE = 286,                /* TOKEN_LE  */
+    TOKEN_NE = 287,                /* TOKEN_NE  */
+    TOKEN_XOR = 288,               /* TOKEN_XOR  */
+    TOKEN_OR = 289,                /* TOKEN_OR  */
+    TOKEN_AND = 290,               /* TOKEN_AND  */
+    TOKEN_ASSIGN = 291,            /* TOKEN_ASSIGN  */
+    TOKEN_LBRACE = 292,            /* TOKEN_LBRACE  */
+    TOKEN_RBRACE = 293,            /* TOKEN_RBRACE  */
+    TOKEN_DOT = 294,               /* TOKEN_DOT  */
+    TOKEN_PONTOEVIRGULA = 295,     /* TOKEN_PONTOEVIRGULA  */
+    TOKEN_VIRGULA = 296,           /* TOKEN_VIRGULA  */
+    TOKEN_LPAREN = 297,            /* TOKEN_LPAREN  */
+    TOKEN_RPAREN = 298,            /* TOKEN_RPAREN  */
     UMINUS = 299                   /* UMINUS  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
 
 /* Value type.  */
+#if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
+union YYSTYPE
+{
+#line 103 "syntactic.y"
+
+    int intValue;         
+    double doubleValue;    
+    char *stringValue;
+
+#line 114 "syntactic.tab.h"
+
+};
+typedef union YYSTYPE YYSTYPE;
+# define YYSTYPE_IS_TRIVIAL 1
+# define YYSTYPE_IS_DECLARED 1
+#endif
 
 
 extern YYSTYPE yylval;

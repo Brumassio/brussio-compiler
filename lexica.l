@@ -1,6 +1,10 @@
 %{
-    #include <stdio.h>
     #include "syntactic.tab.h"
+    #include <stdio.h>
+    #include <stdlib.h>
+    //#include "symtab.h"
+    
+    void yyerror();
 %}
 
 %option yylineno
@@ -55,9 +59,12 @@ FLOAT[0-9]+.[0-9]*
 ")"                   {return TOKEN_RPAREN;}
 
 
+.               { yyerror("Unrecognized character"); }
 
 %%
+/*
 int main(){
     yylex();
     return 1;
 }
+*/

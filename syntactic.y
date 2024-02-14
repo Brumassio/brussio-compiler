@@ -6,12 +6,25 @@ int yylex();
 int yywrap(); 
 void yyerror();
 
+extern int lineno;
+int flag;
 /* Estrutura para os símbolos na tabela */
 typedef struct symrec {
     char *name;
     double value;
     struct symrec *next;
 } SymbolRecord;
+
+/*
+typedef struct {
+    int intValue;         
+    double doubleValue;    
+    char *stringValue;  
+    void *obj;  
+    // Adicione outros tipos conforme necessário para seus tokens
+} YYSTYPE;
+*/
+
 
 /* Tabela de símbolos: array de ponteiros para SymbolRecord */
 #define HASHSIZE 101
@@ -86,6 +99,13 @@ extern FILE *yyin;
 
 
 %}
+
+%union{
+    int intValue;         
+    double doubleValue;    
+    char *stringValue;
+}
+
 
 %token <nd_obj> TOKEN_IF
 %token <nd_obj> TOKEN_ELSE
@@ -171,18 +191,18 @@ expression_increment : TOKEN_INCREMENT exp
 expression_decrement : TOKEN_DECREMENT exp
                       ;
 
-binary_operator : '+'
-                | '-'
-                | '*'
-                | '/'
-                | '||'
-                | '&&'
-                | '=='
-                | '!='
-                | '>'
-                | '<'
-                | '>='
-                | '<='
+binary_operator : TOKEN_SUM
+                | TOKEN_SUB
+                | TOKEN_MULT
+                | TOKEN_DIV
+                | TOKEN_OR
+                | TOKEN_AND
+                | TOKEN_EQUAL
+                | TOKEN_NE
+                | TOKEN_GT
+                | TOKEN_LT
+                | TOKEN_GE
+                | TOKEN_LE
                 ;
 
 
@@ -227,11 +247,15 @@ statement: if_stat
 
 
 
-void yyerror(const char *c) {
-    printf("ERRO: %s\n", c);
+void yyerror() {
+  fprintf(stderr, "Syntax error at line %d\n", lineno);
+  exit(1);
 }
 
-int main(){
-    yyparse();
-    return 0;
+int main(int argc, char *argv[]){
+    yyin = fopen(argv[1], "r");
+    flag = yyparse();
+    fclose(yyin);
+    
+    return flag;
 }
