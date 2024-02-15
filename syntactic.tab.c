@@ -74,26 +74,19 @@
 #include <string.h>
 int yylex();
 int yywrap(); 
-void yyerror();
+void yyerror(char *s);
 
 extern int lineno;
 int flag;
+
+extern FILE *yyin;
+extern int flag;
 /* Estrutura para os símbolos na tabela */
 typedef struct symrec {
     char *name;
     double value;
     struct symrec *next;
 } SymbolRecord;
-
-/*
-typedef struct {
-    int intValue;         
-    double doubleValue;    
-    char *stringValue;  
-    void *obj;  
-    // Adicione outros tipos conforme necessário para seus tokens
-} YYSTYPE;
-*/
 
 
 /* Tabela de símbolos: array de ponteiros para SymbolRecord */
@@ -169,7 +162,7 @@ extern FILE *yyin;
 
 
 
-#line 173 "syntactic.tab.c"
+#line 166 "syntactic.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -642,8 +635,8 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,   163,   163,   163,   165,   167,   167,   167,   167,   169,
-     169
+       0,   156,   156,   156,   158,   160,   160,   160,   160,   162,
+     162
 };
 #endif
 
@@ -1219,7 +1212,7 @@ yyreduce:
   switch (yyn)
     {
 
-#line 1223 "syntactic.tab.c"
+#line 1216 "syntactic.tab.c"
 
       default: break;
     }
@@ -1412,14 +1405,14 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 246 "syntactic.y"
+#line 257 "syntactic.y"
 
 
 
 
-void yyerror() {
-  fprintf(stderr, "Syntax error at line %d\n", lineno);
-  exit(1);
+void yyerror(char *s) {
+    fprintf(stderr, "Erro na linha %d: %s\n", lineno, s);
+    exit(1);
 }
 
 int main(int argc, char *argv[]){

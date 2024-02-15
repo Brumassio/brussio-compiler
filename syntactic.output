@@ -1,0 +1,371 @@
+Nonterminals useless in grammar
+
+    exp
+    term
+    unary_operator
+    expression_increment
+    expression_decrement
+    binary_operator
+    variable
+    assigment
+    for_stat
+    while_stat
+    if_stat
+    else_if_part
+    else_part
+    tail
+    statements
+    statement
+    class_declaration
+    class_body
+    class_members
+    class_member
+    attribute_declaration
+    method_declaration
+    parameters_list
+    parameter_declaration
+    program
+
+
+Terminals unused in grammar
+
+    TOKEN_IF
+    TOKEN_ELSE
+    TOKEN_FOR
+    TOKEN_WHILE
+    TOKEN_INT
+    TOKEN_IDOUBLE
+    TOKEN_MASTER
+    TOKEN_INCLUDE
+    TOKEN_PRINT
+    TOKEN_RETURN
+    TOKEN_BREAK
+    TOKEN_CONTINUE
+    TOKEN_CLASS
+    TOKEN_SUM
+    TOKEN_SUB
+    TOKEN_MULT
+    TOKEN_DIV
+    TOKEN_EQUAL
+    TOKEN_INCREMENT
+    TOKEN_DECREMENT
+    TOKEN_GT
+    TOKEN_LT
+    TOKEN_GE
+    TOKEN_LE
+    TOKEN_NE
+    TOKEN_XOR
+    TOKEN_OR
+    TOKEN_AND
+    TOKEN_ASSIGN
+    TOKEN_LBRACE
+    TOKEN_RBRACE
+    TOKEN_DOT
+    TOKEN_VIRGULA
+    TOKEN_LPAREN
+    TOKEN_RPAREN
+    UMINUS
+    '('
+    ')'
+    '!'
+    '{'
+    '}'
+
+
+Rules useless in grammar
+
+   10 exp: term
+   11    | unary_operator exp
+   12    | exp binary_operator exp
+   13    | '(' exp ')'
+   14    | variable
+
+   15 term: expression_increment
+   16     | expression_decrement
+
+   17 unary_operator: TOKEN_INCREMENT
+   18               | TOKEN_DECREMENT
+   19               | '!'
+
+   20 expression_increment: TOKEN_INCREMENT exp
+
+   21 expression_decrement: TOKEN_DECREMENT exp
+
+   22 binary_operator: TOKEN_SUM
+   23                | TOKEN_SUB
+   24                | TOKEN_MULT
+   25                | TOKEN_DIV
+   26                | TOKEN_OR
+   27                | TOKEN_AND
+   28                | TOKEN_EQUAL
+   29                | TOKEN_NE
+   30                | TOKEN_GT
+   31                | TOKEN_LT
+   32                | TOKEN_GE
+   33                | TOKEN_LE
+
+   34 variable: TOKEN_IDENTIFICADOR
+
+   35 assigment: variable TOKEN_ASSIGN exp TOKEN_PONTOEVIRGULA
+
+   36 for_stat: TOKEN_FOR '(' exp TOKEN_PONTOEVIRGULA exp TOKEN_PONTOEVIRGULA exp ')' tail
+
+   37 while_stat: TOKEN_WHILE '(' exp ')' tail
+
+   38 if_stat: TOKEN_IF '(' exp ')' tail else_if_part else_part
+
+   39 else_if_part: else_if_part TOKEN_ELSE TOKEN_IF '(' exp ')' tail
+   40             | TOKEN_ELSE TOKEN_IF '(' exp ')' tail
+   41             | ε
+
+   42 else_part: TOKEN_ELSE tail
+   43          | ε
+
+   44 tail: statement
+   45     | '{' statements '}'
+
+   46 statements: statements statement
+   47           | statement
+
+   48 statement: if_stat
+   49          | for_stat
+   50          | while_stat
+   51          | assigment
+   52          | TOKEN_CONTINUE TOKEN_PONTOEVIRGULA
+   53          | TOKEN_BREAK TOKEN_PONTOEVIRGULA
+   54          | TOKEN_RETURN TOKEN_PONTOEVIRGULA
+
+   55 class_declaration: TOKEN_CLASS TOKEN_IDENTIFICADOR TOKEN_LBRACE class_body TOKEN_RBRACE
+
+   56 class_body: class_members
+
+   57 class_members: class_members class_member
+   58              | ε
+
+   59 class_member: attribute_declaration
+   60             | method_declaration
+
+   61 attribute_declaration: type TOKEN_IDENTIFICADOR TOKEN_PONTOEVIRGULA
+
+   62 method_declaration: type TOKEN_IDENTIFICADOR TOKEN_LPAREN parameters_list TOKEN_RPAREN '{' statements '}'
+
+   63 parameters_list: parameter_declaration
+   64                | parameters_list TOKEN_VIRGULA parameter_declaration
+
+   65 parameter_declaration: type TOKEN_IDENTIFICADOR
+
+   66 program: declarations statements
+
+
+Grammar
+
+    0 $accept: declarations $end
+
+    1 declarations: declarations declaration
+    2             | declaration
+
+    3 declaration: type names TOKEN_PONTOEVIRGULA
+
+    4 type: TOKEN_INTEGER
+    5     | TOKEN_CHAR
+    6     | TOKEN_DOUBLE
+    7     | TOKEN_VOID
+
+    8 names: TOKEN_IDENTIFICADOR
+    9      | names ',' TOKEN_IDENTIFICADOR
+
+
+Terminals, with rules where they appear
+
+    $end (0) 0
+    '!' (33)
+    '(' (40)
+    ')' (41)
+    ',' (44) 9
+    '{' (123)
+    '}' (125)
+    error (256)
+    TOKEN_IF <intValue> (258)
+    TOKEN_ELSE <intValue> (259)
+    TOKEN_FOR <intValue> (260)
+    TOKEN_WHILE <intValue> (261)
+    TOKEN_INT <intValue> (262)
+    TOKEN_VOID <intValue> (263) 7
+    TOKEN_IDOUBLE <intValue> (264)
+    TOKEN_MASTER <intValue> (265)
+    TOKEN_INCLUDE <intValue> (266)
+    TOKEN_PRINT <intValue> (267)
+    TOKEN_RETURN <intValue> (268)
+    TOKEN_BREAK <intValue> (269)
+    TOKEN_CONTINUE <intValue> (270)
+    TOKEN_CLASS <intValue> (271)
+    TOKEN_INTEGER <intValue> (272) 4
+    TOKEN_CHAR <intValue> (273) 5
+    TOKEN_IDENTIFICADOR <intValue> (274) 8 9
+    TOKEN_DOUBLE <intValue> (275) 6
+    TOKEN_SUM <intValue> (276)
+    TOKEN_SUB <intValue> (277)
+    TOKEN_MULT <intValue> (278)
+    TOKEN_DIV <intValue> (279)
+    TOKEN_EQUAL <intValue> (280)
+    TOKEN_INCREMENT <intValue> (281)
+    TOKEN_DECREMENT <intValue> (282)
+    TOKEN_GT <intValue> (283)
+    TOKEN_LT <intValue> (284)
+    TOKEN_GE <intValue> (285)
+    TOKEN_LE <intValue> (286)
+    TOKEN_NE <intValue> (287)
+    TOKEN_XOR <intValue> (288)
+    TOKEN_OR <intValue> (289)
+    TOKEN_AND <intValue> (290)
+    TOKEN_ASSIGN <intValue> (291)
+    TOKEN_LBRACE <intValue> (292)
+    TOKEN_RBRACE <intValue> (293)
+    TOKEN_DOT <intValue> (294)
+    TOKEN_PONTOEVIRGULA <intValue> (295) 3
+    TOKEN_VIRGULA <intValue> (296)
+    TOKEN_LPAREN <intValue> (297)
+    TOKEN_RPAREN <intValue> (298)
+    UMINUS (299)
+
+
+Nonterminals, with rules where they appear
+
+    $accept (51)
+        on left: 0
+    declarations (52)
+        on left: 1 2
+        on right: 0 1
+    declaration (53)
+        on left: 3
+        on right: 1 2
+    type (54)
+        on left: 4 5 6 7
+        on right: 3
+    names (55)
+        on left: 8 9
+        on right: 3 9
+
+
+State 0
+
+    0 $accept: • declarations $end
+
+    TOKEN_VOID     shift, and go to state 1
+    TOKEN_INTEGER  shift, and go to state 2
+    TOKEN_CHAR     shift, and go to state 3
+    TOKEN_DOUBLE   shift, and go to state 4
+
+    declarations  go to state 5
+    declaration   go to state 6
+    type          go to state 7
+
+
+State 1
+
+    7 type: TOKEN_VOID •
+
+    $default  reduce using rule 7 (type)
+
+
+State 2
+
+    4 type: TOKEN_INTEGER •
+
+    $default  reduce using rule 4 (type)
+
+
+State 3
+
+    5 type: TOKEN_CHAR •
+
+    $default  reduce using rule 5 (type)
+
+
+State 4
+
+    6 type: TOKEN_DOUBLE •
+
+    $default  reduce using rule 6 (type)
+
+
+State 5
+
+    0 $accept: declarations • $end
+    1 declarations: declarations • declaration
+
+    $end           shift, and go to state 8
+    TOKEN_VOID     shift, and go to state 1
+    TOKEN_INTEGER  shift, and go to state 2
+    TOKEN_CHAR     shift, and go to state 3
+    TOKEN_DOUBLE   shift, and go to state 4
+
+    declaration  go to state 9
+    type         go to state 7
+
+
+State 6
+
+    2 declarations: declaration •
+
+    $default  reduce using rule 2 (declarations)
+
+
+State 7
+
+    3 declaration: type • names TOKEN_PONTOEVIRGULA
+
+    TOKEN_IDENTIFICADOR  shift, and go to state 10
+
+    names  go to state 11
+
+
+State 8
+
+    0 $accept: declarations $end •
+
+    $default  accept
+
+
+State 9
+
+    1 declarations: declarations declaration •
+
+    $default  reduce using rule 1 (declarations)
+
+
+State 10
+
+    8 names: TOKEN_IDENTIFICADOR •
+
+    $default  reduce using rule 8 (names)
+
+
+State 11
+
+    3 declaration: type names • TOKEN_PONTOEVIRGULA
+    9 names: names • ',' TOKEN_IDENTIFICADOR
+
+    TOKEN_PONTOEVIRGULA  shift, and go to state 12
+    ','                  shift, and go to state 13
+
+
+State 12
+
+    3 declaration: type names TOKEN_PONTOEVIRGULA •
+
+    $default  reduce using rule 3 (declaration)
+
+
+State 13
+
+    9 names: names ',' • TOKEN_IDENTIFICADOR
+
+    TOKEN_IDENTIFICADOR  shift, and go to state 14
+
+
+State 14
+
+    9 names: names ',' TOKEN_IDENTIFICADOR •
+
+    $default  reduce using rule 9 (names)

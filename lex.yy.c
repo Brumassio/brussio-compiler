@@ -609,11 +609,11 @@ int yy_flex_debug = 1;
 
 static const flex_int16_t yy_rule_linenum[44] =
     {   0,
-       18,   19,   20,   21,   22,   23,   24,   25,   26,   27,
-       28,   29,   30,   31,   32,   33,   34,   35,   36,   37,
-       38,   39,   40,   41,   42,   43,   44,   45,   46,   47,
+       22,   23,   24,   25,   26,   27,   28,   29,   30,   31,
+       32,   33,   34,   35,   36,   37,   38,   40,   46,   47,
        48,   49,   50,   51,   52,   53,   54,   55,   56,   57,
-       58,   59,   62
+       58,   59,   60,   61,   62,   63,   64,   65,   66,   67,
+       68,   69,   72
     } ;
 
 /* The intent behind this definition is that it'll catch
@@ -629,11 +629,15 @@ char *yytext;
     #include "syntactic.tab.h"
     #include <stdio.h>
     #include <stdlib.h>
+    #include <string.h>
     //#include "symtab.h"
-    
+    extern FILE *yyin;
+	extern FILE *yyout;
+	
+	int lineno = 1; 
     void yyerror();
-#line 636 "lex.yy.c"
-#line 637 "lex.yy.c"
+#line 640 "lex.yy.c"
+#line 641 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -913,10 +917,10 @@ YY_DECL
 
 	{
 /* %% [7.0] user's declarations go here */
-#line 16 "lexica.l"
+#line 20 "lexica.l"
 
 
-#line 920 "lex.yy.c"
+#line 924 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -1008,226 +1012,231 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 18 "lexica.l"
+#line 22 "lexica.l"
 {return TOKEN_IF;}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 19 "lexica.l"
+#line 23 "lexica.l"
 {return TOKEN_ELSE;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 20 "lexica.l"
+#line 24 "lexica.l"
 {return TOKEN_FOR;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 21 "lexica.l"
+#line 25 "lexica.l"
 {return TOKEN_WHILE;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 22 "lexica.l"
+#line 26 "lexica.l"
 {return TOKEN_INT;}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 23 "lexica.l"
+#line 27 "lexica.l"
 {return TOKEN_CHAR;}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 24 "lexica.l"
+#line 28 "lexica.l"
 {return TOKEN_IDOUBLE;}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 25 "lexica.l"
+#line 29 "lexica.l"
 {return TOKEN_VOID;} 
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 26 "lexica.l"
+#line 30 "lexica.l"
 {return TOKEN_MASTER;}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 27 "lexica.l"
+#line 31 "lexica.l"
 {return TOKEN_INCLUDE;}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 28 "lexica.l"
+#line 32 "lexica.l"
 {return TOKEN_PRINT;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 29 "lexica.l"
+#line 33 "lexica.l"
 {return TOKEN_RETURN;}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 30 "lexica.l"
+#line 34 "lexica.l"
 {return TOKEN_BREAK;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 31 "lexica.l"
+#line 35 "lexica.l"
 {return TOKEN_CONTINUE;}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 32 "lexica.l"
+#line 36 "lexica.l"
 {return TOKEN_CLASS;}
 	YY_BREAK
 case 16:
 /* rule 16 can match eol */
 YY_RULE_SETUP
-#line 33 "lexica.l"
+#line 37 "lexica.l"
 /* Ignorar espaços em branco */ ;
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 34 "lexica.l"
+#line 38 "lexica.l"
 {return TOKEN_INTEGER;}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 35 "lexica.l"
-{return TOKEN_IDENTIFICADOR;}
+#line 40 "lexica.l"
+{
+    // insert identifier into symbol table
+    insert(yytext, strlen(yytext), UNDEF, lineno);
+    yylval.stringValue = lookup(yytext);          
+    return TOKEN_IDENTIFICADOR;
+}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 36 "lexica.l"
+#line 46 "lexica.l"
 {return TOKEN_DOUBLE;}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 37 "lexica.l"
+#line 47 "lexica.l"
 {return TOKEN_SUM;}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 38 "lexica.l"
+#line 48 "lexica.l"
 {return TOKEN_SUB;}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 39 "lexica.l"
+#line 49 "lexica.l"
 {return TOKEN_MULT;}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 40 "lexica.l"
+#line 50 "lexica.l"
 {return TOKEN_DIV;}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 41 "lexica.l"
+#line 51 "lexica.l"
 {return TOKEN_EQUAL;}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 42 "lexica.l"
+#line 52 "lexica.l"
 {return TOKEN_INCREMENT;}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 43 "lexica.l"
+#line 53 "lexica.l"
 {return TOKEN_DECREMENT;}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 44 "lexica.l"
+#line 54 "lexica.l"
 {return TOKEN_GT;}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 45 "lexica.l"
+#line 55 "lexica.l"
 {return TOKEN_LT;}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 46 "lexica.l"
+#line 56 "lexica.l"
 {return TOKEN_GE;}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 47 "lexica.l"
+#line 57 "lexica.l"
 {return TOKEN_LE;}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 48 "lexica.l"
+#line 58 "lexica.l"
 {return TOKEN_NE;}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 49 "lexica.l"
+#line 59 "lexica.l"
 {return TOKEN_XOR;}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 50 "lexica.l"
+#line 60 "lexica.l"
 {return TOKEN_OR;}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 51 "lexica.l"
+#line 61 "lexica.l"
 {return TOKEN_AND;}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 52 "lexica.l"
+#line 62 "lexica.l"
 {return TOKEN_ASSIGN;}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 53 "lexica.l"
+#line 63 "lexica.l"
 {return TOKEN_LBRACE;}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 54 "lexica.l"
+#line 64 "lexica.l"
 {return TOKEN_RBRACE;}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 55 "lexica.l"
+#line 65 "lexica.l"
 {return TOKEN_DOT;}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 56 "lexica.l"
+#line 66 "lexica.l"
 {return TOKEN_PONTOEVIRGULA;}
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 57 "lexica.l"
+#line 67 "lexica.l"
 {return TOKEN_VIRGULA;}
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 58 "lexica.l"
+#line 68 "lexica.l"
 {return TOKEN_LPAREN;}
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 59 "lexica.l"
+#line 69 "lexica.l"
 {return TOKEN_RPAREN;}
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 62 "lexica.l"
+#line 72 "lexica.l"
 { yyerror("Unrecognized character"); }
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 64 "lexica.l"
+#line 74 "lexica.l"
 ECHO;
 	YY_BREAK
-#line 1231 "lex.yy.c"
+#line 1240 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2387,8 +2396,12 @@ void yyfree (void * ptr )
 
 /* %ok-for-header */
 
-#line 64 "lexica.l"
+#line 74 "lexica.l"
 
+
+int yywrap() {
+    return 1;
+}
 /*
 int main(){
     yylex();

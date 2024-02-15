@@ -2,8 +2,12 @@
     #include "syntactic.tab.h"
     #include <stdio.h>
     #include <stdlib.h>
+    #include <string.h>
     //#include "symtab.h"
-    
+    extern FILE *yyin;
+	extern FILE *yyout;
+	
+	int lineno = 1; 
     void yyerror();
 %}
 
@@ -32,7 +36,13 @@ FLOAT[0-9]+.[0-9]*
 "class"               {return TOKEN_CLASS;}
 [ \t\n]                /* Ignorar espaços em branco */ ;
 {DIGIT}                {return TOKEN_INTEGER;}
-{ID}                   {return TOKEN_IDENTIFICADOR;}
+
+{ID} {
+    // insert identifier into symbol table
+    insert(yytext, strlen(yytext), UNDEF, lineno);
+    yylval.stringValue = lookup(yytext);          
+    return TOKEN_IDENTIFICADOR;
+}
 {FLOAT}                {return TOKEN_DOUBLE;}
 "+"                   {return TOKEN_SUM;}
 "-"                   {return TOKEN_SUB;}
@@ -62,6 +72,10 @@ FLOAT[0-9]+.[0-9]*
 .               { yyerror("Unrecognized character"); }
 
 %%
+
+int yywrap() {
+    return 1;
+}
 /*
 int main(){
     yylex();

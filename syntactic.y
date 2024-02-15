@@ -4,26 +4,19 @@
 #include <string.h>
 int yylex();
 int yywrap(); 
-void yyerror();
+void yyerror(char *s);
 
 extern int lineno;
 int flag;
+
+extern FILE *yyin;
+extern int flag;
 /* Estrutura para os símbolos na tabela */
 typedef struct symrec {
     char *name;
     double value;
     struct symrec *next;
 } SymbolRecord;
-
-/*
-typedef struct {
-    int intValue;         
-    double doubleValue;    
-    char *stringValue;  
-    void *obj;  
-    // Adicione outros tipos conforme necessário para seus tokens
-} YYSTYPE;
-*/
 
 
 /* Tabela de símbolos: array de ponteiros para SymbolRecord */
@@ -107,47 +100,47 @@ extern FILE *yyin;
 }
 
 
-%token <nd_obj> TOKEN_IF
-%token <nd_obj> TOKEN_ELSE
-%token <nd_obj> TOKEN_FOR
-%token <nd_obj> TOKEN_WHILE
-%token <nd_obj> TOKEN_INT
-%token <nd_obj> TOKEN_VOID
-%token <nd_obj> TOKEN_IDOUBLE
-%token <nd_obj> TOKEN_MASTER
-%token <nd_obj> TOKEN_INCLUDE
-%token <nd_obj> TOKEN_PRINT
-%token <nd_obj> TOKEN_RETURN
-%token <nd_obj> TOKEN_BREAK
-%token <nd_obj> TOKEN_CONTINUE
-%token <nd_obj> TOKEN_CLASS
-%token <nd_obj> TOKEN_INTEGER
-%token <nd_obj> TOKEN_CHAR
-%token <nd_obj> TOKEN_IDENTIFICADOR
-%token <nd_obj> TOKEN_DOUBLE
-%token <nd_obj> TOKEN_SUM
-%token <nd_obj> TOKEN_SUB
-%token <nd_obj> TOKEN_MULT
-%token <nd_obj> TOKEN_DIV
-%token <nd_obj> TOKEN_EQUAL
-%token <nd_obj> TOKEN_INCREMENT
-%token <nd_obj> TOKEN_DECREMENT
-%token <nd_obj> TOKEN_GT
-%token <nd_obj> TOKEN_LT
-%token <nd_obj> TOKEN_GE
-%token <nd_obj> TOKEN_LE
-%token <nd_obj> TOKEN_NE
-%token <nd_obj> TOKEN_XOR
-%token <nd_obj> TOKEN_OR
-%token <nd_obj> TOKEN_AND
-%token <nd_obj> TOKEN_ASSIGN
-%token <nd_obj> TOKEN_LBRACE
-%token <nd_obj> TOKEN_RBRACE
-%token <nd_obj> TOKEN_DOT
-%token <nd_obj> TOKEN_PONTOEVIRGULA
-%token <nd_obj> TOKEN_VIRGULA
-%token <nd_obj> TOKEN_LPAREN
-%token <nd_obj> TOKEN_RPAREN
+%token <intValue> TOKEN_IF
+%token <intValue> TOKEN_ELSE
+%token <intValue> TOKEN_FOR
+%token <intValue> TOKEN_WHILE
+%token <intValue> TOKEN_INT
+%token <intValue> TOKEN_VOID
+%token <intValue> TOKEN_IDOUBLE
+%token <intValue> TOKEN_MASTER
+%token <intValue> TOKEN_INCLUDE
+%token <intValue> TOKEN_PRINT
+%token <intValue> TOKEN_RETURN
+%token <intValue> TOKEN_BREAK
+%token <intValue> TOKEN_CONTINUE
+%token <intValue> TOKEN_CLASS
+%token <intValue> TOKEN_INTEGER
+%token <intValue> TOKEN_CHAR
+%token <intValue> TOKEN_IDENTIFICADOR
+%token <intValue> TOKEN_DOUBLE
+%token <intValue> TOKEN_SUM
+%token <intValue> TOKEN_SUB
+%token <intValue> TOKEN_MULT
+%token <intValue> TOKEN_DIV
+%token <intValue> TOKEN_EQUAL
+%token <intValue> TOKEN_INCREMENT
+%token <intValue> TOKEN_DECREMENT
+%token <intValue> TOKEN_GT
+%token <intValue> TOKEN_LT
+%token <intValue> TOKEN_GE
+%token <intValue> TOKEN_LE
+%token <intValue> TOKEN_NE
+%token <intValue> TOKEN_XOR
+%token <intValue> TOKEN_OR
+%token <intValue> TOKEN_AND
+%token <intValue> TOKEN_ASSIGN
+%token <intValue> TOKEN_LBRACE
+%token <intValue> TOKEN_RBRACE
+%token <intValue> TOKEN_DOT
+%token <intValue> TOKEN_PONTOEVIRGULA
+%token <intValue> TOKEN_VIRGULA
+%token <intValue> TOKEN_LPAREN
+%token <intValue> TOKEN_RPAREN
 
 //%token <double> NUM
 //%token <symrec*> VAR FUN
@@ -239,17 +232,35 @@ statement: if_stat
         | TOKEN_BREAK  TOKEN_PONTOEVIRGULA
         | TOKEN_RETURN  TOKEN_PONTOEVIRGULA;
 
+// classe
+
+class_declaration: TOKEN_CLASS TOKEN_IDENTIFICADOR TOKEN_LBRACE class_body TOKEN_RBRACE;
+
+class_body: class_members;
+
+class_members: class_members class_member | /* empty */;
+
+class_member: attribute_declaration | method_declaration;
+
+attribute_declaration: type TOKEN_IDENTIFICADOR TOKEN_PONTOEVIRGULA;
+
+method_declaration: type TOKEN_IDENTIFICADOR TOKEN_LPAREN parameters_list TOKEN_RPAREN '{' statements '}';
+
+parameters_list: parameter_declaration | parameters_list TOKEN_VIRGULA parameter_declaration;
+
+parameter_declaration: type TOKEN_IDENTIFICADOR;
 
 
+program: declarations statements ;
 
 
 %%
 
 
 
-void yyerror() {
-  fprintf(stderr, "Syntax error at line %d\n", lineno);
-  exit(1);
+void yyerror(char *s) {
+    fprintf(stderr, "Erro na linha %d: %s\n", lineno, s);
+    exit(1);
 }
 
 int main(int argc, char *argv[]){

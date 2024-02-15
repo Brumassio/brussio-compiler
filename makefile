@@ -5,7 +5,7 @@ FLEX=flex
 BISON=bison
 
 brussio: lex.yy.c syntactic.tab.c
-	$(CPP) lex.yy.c syntactic.tab.c -std=c++17 -o brussio
+	$(CPP) -o steemit syntactic.tab.c lex.yy.c
 
 lex.yy.c: lexica.l
 	$(FLEX) lexica.l
