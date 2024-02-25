@@ -1,17 +1,32 @@
-all: brussio
+# Definições das variáveis
+SCANNER := flex
+SCANNER_PARAMS := lexica.l
+PARSER := bison
+PARSER_PARAMS := -v -d syntactic.y
 
-CPP=gcc
-FLEX=flex
-BISON=bison
+# Regra para construir tudo
+all: compile translate
 
-brussio: lex.yy.c syntactic.tab.c
-	$(CPP) -o steemit syntactic.tab.c lex.yy.c
+# Regra para compilar o scanner e o parser
+compile:
+	$(SCANNER) $(SCANNER_PARAMS)
+	$(PARSER) $(PARSER_PARAMS)
+	gcc -o cassio syntactic.tab.c lex.yy.c 
 
-lex.yy.c: lexica.l
-	$(FLEX) lexica.l
+# Regra para executar o programa
+run: cassio
+	clear
+	./cassio teste.brussio
 
-syntactic.tab.c: syntactic.y
-	$(BISON) -d syntactic.y
+# Regra para depuração (debug)
+debug: PARSER_PARAMS += -Wcounterexamples -Wconflicts-sr -Wconflicts-rr -Wcex -Wother
+debug: all
 
-clean:
-	rm brussio lex.yy.c syntactic.tab.c syntactic.tab.h
+# Regra para traduzir
+translate: cassio
+	./cassio teste.brussio
+
+# Regra para limpar os arquivos gerados durante a compilação
+clear:
+	rm -f syntactic.tab.c syntactic.tab.h lex.yy.c cassio
+
