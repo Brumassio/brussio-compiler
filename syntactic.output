@@ -7,12 +7,16 @@ Nonterminals useless in grammar
     expression_decrement
     binary_operator
     variable
-    assigment
+    assignment
     for_stat
+    $@2
     while_stat
+    $@3
     if_stat
     else_if_part
+    $@4
     else_part
+    $@5
     tail
     statements
     statement
@@ -74,87 +78,97 @@ Terminals unused in grammar
 
 Rules useless in grammar
 
-   10 exp: term
-   11    | unary_operator exp
-   12    | exp binary_operator exp
-   13    | '(' exp ')'
-   14    | variable
+    9 exp: term
+   10    | unary_operator exp
+   11    | exp binary_operator exp
+   12    | '(' exp ')'
+   13    | variable
 
-   15 term: expression_increment
-   16     | expression_decrement
+   14 term: expression_increment
+   15     | expression_decrement
 
-   17 unary_operator: TOKEN_INCREMENT
-   18               | TOKEN_DECREMENT
-   19               | '!'
+   16 unary_operator: TOKEN_INCREMENT
+   17               | TOKEN_DECREMENT
+   18               | '!'
 
-   20 expression_increment: TOKEN_INCREMENT exp
+   19 expression_increment: TOKEN_INCREMENT exp
 
-   21 expression_decrement: TOKEN_DECREMENT exp
+   20 expression_decrement: TOKEN_DECREMENT exp
 
-   22 binary_operator: TOKEN_SUM
-   23                | TOKEN_SUB
-   24                | TOKEN_MULT
-   25                | TOKEN_DIV
-   26                | TOKEN_OR
-   27                | TOKEN_AND
-   28                | TOKEN_EQUAL
-   29                | TOKEN_NE
-   30                | TOKEN_GT
-   31                | TOKEN_LT
-   32                | TOKEN_GE
-   33                | TOKEN_LE
+   21 binary_operator: TOKEN_SUM
+   22                | TOKEN_SUB
+   23                | TOKEN_MULT
+   24                | TOKEN_DIV
+   25                | TOKEN_OR
+   26                | TOKEN_AND
+   27                | TOKEN_EQUAL
+   28                | TOKEN_NE
+   29                | TOKEN_GT
+   30                | TOKEN_LT
+   31                | TOKEN_GE
+   32                | TOKEN_LE
 
-   34 variable: TOKEN_IDENTIFICADOR
+   33 variable: TOKEN_IDENTIFICADOR
 
-   35 assigment: variable TOKEN_ASSIGN exp TOKEN_PONTOEVIRGULA
+   34 assignment: variable TOKEN_ASSIGN exp TOKEN_PONTOEVIRGULA
 
-   36 for_stat: TOKEN_FOR '(' exp TOKEN_PONTOEVIRGULA exp TOKEN_PONTOEVIRGULA exp ')' tail
+   35 $@2: ε
 
-   37 while_stat: TOKEN_WHILE '(' exp ')' tail
+   36 for_stat: TOKEN_FOR $@2 '(' exp TOKEN_PONTOEVIRGULA exp TOKEN_PONTOEVIRGULA exp ')' tail
 
-   38 if_stat: TOKEN_IF '(' exp ')' tail else_if_part else_part
+   37 $@3: ε
 
-   39 else_if_part: else_if_part TOKEN_ELSE TOKEN_IF '(' exp ')' tail
-   40             | TOKEN_ELSE TOKEN_IF '(' exp ')' tail
-   41             | ε
+   38 while_stat: TOKEN_WHILE $@3 '(' exp ')' tail
 
-   42 else_part: TOKEN_ELSE tail
-   43          | ε
+   39 if_stat: TOKEN_IF '(' exp ')' tail else_if_part else_part
 
-   44 tail: statement
-   45     | '{' statements '}'
+   40 else_if_part: else_if_part TOKEN_ELSE TOKEN_IF '(' exp ')' tail
+   41             | TOKEN_ELSE
 
-   46 statements: statements statement
-   47           | statement
+   42 $@4: ε
 
-   48 statement: if_stat
-   49          | for_stat
-   50          | while_stat
-   51          | assigment
-   52          | TOKEN_CONTINUE TOKEN_PONTOEVIRGULA
-   53          | TOKEN_BREAK TOKEN_PONTOEVIRGULA
-   54          | TOKEN_RETURN TOKEN_PONTOEVIRGULA
+   43 else_if_part: TOKEN_IF $@4 '(' exp ')' tail
+   44             | ε
 
-   55 class_declaration: TOKEN_CLASS TOKEN_IDENTIFICADOR TOKEN_LBRACE class_body TOKEN_RBRACE
+   45 $@5: ε
 
-   56 class_body: class_members
+   46 else_part: TOKEN_ELSE $@5 tail
+   47          | ε
 
-   57 class_members: class_members class_member
-   58              | ε
+   48 tail: statement
+   49     | '{' statements '}'
 
-   59 class_member: attribute_declaration
-   60             | method_declaration
+   50 statements: statements statement
+   51           | statement
 
-   61 attribute_declaration: type TOKEN_IDENTIFICADOR TOKEN_PONTOEVIRGULA
+   52 statement: if_stat
+   53          | for_stat
+   54          | while_stat
+   55          | assignment
+   56          | TOKEN_CONTINUE TOKEN_PONTOEVIRGULA
+   57          | TOKEN_BREAK TOKEN_PONTOEVIRGULA
+   58          | TOKEN_RETURN TOKEN_PONTOEVIRGULA
 
-   62 method_declaration: type TOKEN_IDENTIFICADOR TOKEN_LPAREN parameters_list TOKEN_RPAREN '{' statements '}'
+   59 class_declaration: TOKEN_CLASS TOKEN_IDENTIFICADOR TOKEN_LBRACE class_body TOKEN_RBRACE
 
-   63 parameters_list: parameter_declaration
-   64                | parameters_list TOKEN_VIRGULA parameter_declaration
+   60 class_body: class_members
 
-   65 parameter_declaration: type TOKEN_IDENTIFICADOR
+   61 class_members: class_members class_member
+   62              | ε
 
-   66 program: declarations statements
+   63 class_member: attribute_declaration
+   64             | method_declaration
+
+   65 attribute_declaration: type TOKEN_IDENTIFICADOR TOKEN_PONTOEVIRGULA
+
+   66 method_declaration: type TOKEN_IDENTIFICADOR TOKEN_LPAREN parameters_list TOKEN_RPAREN '{' statements '}'
+
+   67 parameters_list: parameter_declaration
+   68                | parameters_list TOKEN_VIRGULA parameter_declaration
+
+   69 parameter_declaration: type TOKEN_IDENTIFICADOR
+
+   70 program: declarations statements
 
 
 Grammar
@@ -164,15 +178,14 @@ Grammar
     1 declarations: declarations declaration
     2             | declaration
 
-    3 declaration: type names TOKEN_PONTOEVIRGULA
+    3 $@1: ε
 
-    4 type: TOKEN_INTEGER
-    5     | TOKEN_CHAR
-    6     | TOKEN_DOUBLE
-    7     | TOKEN_VOID
+    4 declaration: type TOKEN_IDENTIFICADOR $@1 TOKEN_PONTOEVIRGULA
 
-    8 names: TOKEN_IDENTIFICADOR
-    9      | names ',' TOKEN_IDENTIFICADOR
+    5 type: TOKEN_INTEGER
+    6     | TOKEN_CHAR
+    7     | TOKEN_DOUBLE
+    8     | TOKEN_VOID
 
 
 Terminals, with rules where they appear
@@ -181,70 +194,69 @@ Terminals, with rules where they appear
     '!' (33)
     '(' (40)
     ')' (41)
-    ',' (44) 9
     '{' (123)
     '}' (125)
     error (256)
-    TOKEN_IF <intValue> (258)
-    TOKEN_ELSE <intValue> (259)
-    TOKEN_FOR <intValue> (260)
-    TOKEN_WHILE <intValue> (261)
-    TOKEN_INT <intValue> (262)
-    TOKEN_VOID <intValue> (263) 7
-    TOKEN_IDOUBLE <intValue> (264)
-    TOKEN_MASTER <intValue> (265)
-    TOKEN_INCLUDE <intValue> (266)
-    TOKEN_PRINT <intValue> (267)
-    TOKEN_RETURN <intValue> (268)
-    TOKEN_BREAK <intValue> (269)
-    TOKEN_CONTINUE <intValue> (270)
-    TOKEN_CLASS <intValue> (271)
-    TOKEN_INTEGER <intValue> (272) 4
-    TOKEN_CHAR <intValue> (273) 5
-    TOKEN_IDENTIFICADOR <intValue> (274) 8 9
-    TOKEN_DOUBLE <intValue> (275) 6
-    TOKEN_SUM <intValue> (276)
-    TOKEN_SUB <intValue> (277)
-    TOKEN_MULT <intValue> (278)
-    TOKEN_DIV <intValue> (279)
-    TOKEN_EQUAL <intValue> (280)
-    TOKEN_INCREMENT <intValue> (281)
-    TOKEN_DECREMENT <intValue> (282)
-    TOKEN_GT <intValue> (283)
-    TOKEN_LT <intValue> (284)
-    TOKEN_GE <intValue> (285)
-    TOKEN_LE <intValue> (286)
-    TOKEN_NE <intValue> (287)
-    TOKEN_XOR <intValue> (288)
-    TOKEN_OR <intValue> (289)
-    TOKEN_AND <intValue> (290)
-    TOKEN_ASSIGN <intValue> (291)
-    TOKEN_LBRACE <intValue> (292)
-    TOKEN_RBRACE <intValue> (293)
-    TOKEN_DOT <intValue> (294)
-    TOKEN_PONTOEVIRGULA <intValue> (295) 3
-    TOKEN_VIRGULA <intValue> (296)
-    TOKEN_LPAREN <intValue> (297)
-    TOKEN_RPAREN <intValue> (298)
+    TOKEN_IF <obj> (258)
+    TOKEN_ELSE <obj> (259)
+    TOKEN_FOR <obj> (260)
+    TOKEN_WHILE <obj> (261)
+    TOKEN_INT <obj> (262)
+    TOKEN_VOID <obj> (263) 8
+    TOKEN_IDOUBLE <obj> (264)
+    TOKEN_MASTER <obj> (265)
+    TOKEN_INCLUDE <obj> (266)
+    TOKEN_PRINT <obj> (267)
+    TOKEN_RETURN <obj> (268)
+    TOKEN_BREAK <obj> (269)
+    TOKEN_CONTINUE <obj> (270)
+    TOKEN_CLASS <obj> (271)
+    TOKEN_INTEGER <obj> (272) 5
+    TOKEN_CHAR <obj> (273) 6
+    TOKEN_IDENTIFICADOR <obj> (274) 4
+    TOKEN_DOUBLE <obj> (275) 7
+    TOKEN_SUM <obj> (276)
+    TOKEN_SUB <obj> (277)
+    TOKEN_MULT <obj> (278)
+    TOKEN_DIV <obj> (279)
+    TOKEN_EQUAL <obj> (280)
+    TOKEN_INCREMENT <obj> (281)
+    TOKEN_DECREMENT <obj> (282)
+    TOKEN_GT <obj> (283)
+    TOKEN_LT <obj> (284)
+    TOKEN_GE <obj> (285)
+    TOKEN_LE <obj> (286)
+    TOKEN_NE <obj> (287)
+    TOKEN_XOR <obj> (288)
+    TOKEN_OR <obj> (289)
+    TOKEN_AND <obj> (290)
+    TOKEN_ASSIGN <obj> (291)
+    TOKEN_LBRACE <obj> (292)
+    TOKEN_RBRACE <obj> (293)
+    TOKEN_DOT <obj> (294)
+    TOKEN_PONTOEVIRGULA <obj> (295) 4
+    TOKEN_VIRGULA <obj> (296)
+    TOKEN_LPAREN <obj> (297)
+    TOKEN_RPAREN <obj> (298)
     UMINUS (299)
 
 
 Nonterminals, with rules where they appear
 
-    $accept (51)
+    $accept (50)
         on left: 0
-    declarations (52)
+    declarations (51)
         on left: 1 2
         on right: 0 1
-    declaration (53)
-        on left: 3
+    declaration <obj> (52)
+        on left: 4
         on right: 1 2
-    type (54)
-        on left: 4 5 6 7
-        on right: 3
-    names (55)
-        on left: 8 9
-        on right: 3 9
+    $@1 (53)
+        on left: 3
+        on right: 4
+    type <obj> (54)
+        on left: 5 6 7 8
+        on right: 4
 
 
 State 0
@@ -263,30 +275,30 @@ State 0
 
 State 1
 
-    7 type: TOKEN_VOID •
+    8 type: TOKEN_VOID •
 
-    $default  reduce using rule 7 (type)
+    $default  reduce using rule 8 (type)
 
 
 State 2
 
-    4 type: TOKEN_INTEGER •
-
-    $default  reduce using rule 4 (type)
-
-
-State 3
-
-    5 type: TOKEN_CHAR •
+    5 type: TOKEN_INTEGER •
 
     $default  reduce using rule 5 (type)
 
 
-State 4
+State 3
 
-    6 type: TOKEN_DOUBLE •
+    6 type: TOKEN_CHAR •
 
     $default  reduce using rule 6 (type)
+
+
+State 4
+
+    7 type: TOKEN_DOUBLE •
+
+    $default  reduce using rule 7 (type)
 
 
 State 5
@@ -313,11 +325,9 @@ State 6
 
 State 7
 
-    3 declaration: type • names TOKEN_PONTOEVIRGULA
+    4 declaration: type • TOKEN_IDENTIFICADOR $@1 TOKEN_PONTOEVIRGULA
 
     TOKEN_IDENTIFICADOR  shift, and go to state 10
-
-    names  go to state 11
 
 
 State 8
@@ -336,36 +346,22 @@ State 9
 
 State 10
 
-    8 names: TOKEN_IDENTIFICADOR •
+    4 declaration: type TOKEN_IDENTIFICADOR • $@1 TOKEN_PONTOEVIRGULA
 
-    $default  reduce using rule 8 (names)
+    $default  reduce using rule 3 ($@1)
+
+    $@1  go to state 11
 
 
 State 11
 
-    3 declaration: type names • TOKEN_PONTOEVIRGULA
-    9 names: names • ',' TOKEN_IDENTIFICADOR
+    4 declaration: type TOKEN_IDENTIFICADOR $@1 • TOKEN_PONTOEVIRGULA
 
     TOKEN_PONTOEVIRGULA  shift, and go to state 12
-    ','                  shift, and go to state 13
 
 
 State 12
 
-    3 declaration: type names TOKEN_PONTOEVIRGULA •
+    4 declaration: type TOKEN_IDENTIFICADOR $@1 TOKEN_PONTOEVIRGULA •
 
-    $default  reduce using rule 3 (declaration)
-
-
-State 13
-
-    9 names: names ',' • TOKEN_IDENTIFICADOR
-
-    TOKEN_IDENTIFICADOR  shift, and go to state 14
-
-
-State 14
-
-    9 names: names ',' TOKEN_IDENTIFICADOR •
-
-    $default  reduce using rule 9 (names)
+    $default  reduce using rule 4 (declaration)

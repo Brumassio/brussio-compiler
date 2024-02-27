@@ -104,13 +104,17 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 96 "syntactic.y"
+#line 44 "syntactic.y"
 
     int intValue;         
     double doubleValue;    
     char *stringValue;
+    struct var_name {
+      char name[80];
+      struct noArvore *nd;
+    } obj;
 
-#line 114 "syntactic.tab.h"
+#line 118 "syntactic.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

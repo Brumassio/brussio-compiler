@@ -7,7 +7,7 @@
     extern FILE *yyin;
 	extern FILE *yyout;
 	
-	int lineno = 1; 
+	int countn=0;
     void yyerror();
 %}
 
@@ -19,55 +19,48 @@ FLOAT[0-9]+.[0-9]*
 
 %%
 
-"if"                 {return TOKEN_IF;}
-"else"               {return TOKEN_ELSE;}
-"for"                 {return TOKEN_FOR;}
-"while"               {return TOKEN_WHILE;}
-"int"                 {return TOKEN_INT;}
-"char"                {return TOKEN_CHAR;}
-"double"              {return TOKEN_IDOUBLE;}
-"void"                 {return TOKEN_VOID;} 
-"master"              {return TOKEN_MASTER;}
-"#include"            {return TOKEN_INCLUDE;}
-"print"               {return TOKEN_PRINT;}
-"return"              {return TOKEN_RETURN;}
-"break"               {return TOKEN_BREAK;}
-"continue"            {return TOKEN_CONTINUE;}
-"class"               {return TOKEN_CLASS;}
-[ \t\n]                /* Ignorar espaços em branco */ ;
-{DIGIT}                {return TOKEN_INTEGER;}
-
-{ID} {
-    // insert identifier into symbol table
-    insert(yytext, strlen(yytext), UNDEF, lineno);
-    yylval.stringValue = lookup(yytext);          
-    return TOKEN_IDENTIFICADOR;
-}
-{FLOAT}                {return TOKEN_DOUBLE;}
-"+"                   {return TOKEN_SUM;}
-"-"                   {return TOKEN_SUB;}
-"*"                   {return TOKEN_MULT;}
-"/"                   {return TOKEN_DIV;}
-"=="                  {return TOKEN_EQUAL;}
-"++"                  {return TOKEN_INCREMENT;}
-"--"                  {return TOKEN_DECREMENT;}
-">"                   {return TOKEN_GT;}
-"<"                   {return TOKEN_LT;}
-">="                  {return TOKEN_GE;}
-"<="                  {return TOKEN_LE;}
-"!="                  {return TOKEN_NE;}
-"^"                   {return TOKEN_XOR;}
-"||"                  {return TOKEN_OR;}
-"&&"                  {return TOKEN_AND;}
-"="                   {return TOKEN_ASSIGN;}
-"{"                   {return TOKEN_LBRACE;}
-"}"                   {return TOKEN_RBRACE;}
-"."                   {return TOKEN_DOT;}
-";"                   {return TOKEN_PONTOEVIRGULA;}
-","                   {return TOKEN_VIRGULA;}
-"("                   {return TOKEN_LPAREN;}
-")"                   {return TOKEN_RPAREN;}
-
+"if"                  {strcpy(yylval.obj.name,(yytext));return TOKEN_IF;}
+"else"                {strcpy(yylval.obj.name,(yytext));return TOKEN_ELSE;}
+"for"                 {strcpy(yylval.obj.name,(yytext));return TOKEN_FOR;}
+"while"               {strcpy(yylval.obj.name,(yytext));return TOKEN_WHILE;}
+"int"                 {strcpy(yylval.obj.name,(yytext));return TOKEN_INT;}
+"char"                {strcpy(yylval.obj.name,(yytext));return TOKEN_CHAR;}
+"double"              {strcpy(yylval.obj.name,(yytext));return TOKEN_IDOUBLE;}
+"void"                {strcpy(yylval.obj.name,(yytext));return TOKEN_VOID;} 
+"master"              {strcpy(yylval.obj.name,(yytext));return TOKEN_MASTER;}
+"#include"            {strcpy(yylval.obj.name,(yytext));return TOKEN_INCLUDE;}
+"print"               {strcpy(yylval.obj.name,(yytext));return TOKEN_PRINT;}
+"return"              {strcpy(yylval.obj.name,(yytext));return TOKEN_RETURN;}
+"break"               {strcpy(yylval.obj.name,(yytext));return TOKEN_BREAK;}
+"continue"            {strcpy(yylval.obj.name,(yytext));return TOKEN_CONTINUE;}
+"class"               {strcpy(yylval.obj.name,(yytext));return TOKEN_CLASS;}
+{DIGIT}               {strcpy(yylval.obj.name,(yytext));return TOKEN_INTEGER;}
+{FLOAT}               {strcpy(yylval.obj.name,(yytext));return TOKEN_DOUBLE;}
+"+"                   {strcpy(yylval.obj.name,(yytext));return TOKEN_SUM;}
+"-"                   {strcpy(yylval.obj.name,(yytext));return TOKEN_SUB;}
+"*"                   {strcpy(yylval.obj.name,(yytext));return TOKEN_MULT;}
+"/"                   {strcpy(yylval.obj.name,(yytext));return TOKEN_DIV;}
+"=="                  {strcpy(yylval.obj.name,(yytext));return TOKEN_EQUAL;}
+"++"                  {strcpy(yylval.obj.name,(yytext));return TOKEN_INCREMENT;}
+"--"                  {strcpy(yylval.obj.name,(yytext));return TOKEN_DECREMENT;}
+">"                   {strcpy(yylval.obj.name,(yytext));return TOKEN_GT;}
+"<"                   {strcpy(yylval.obj.name,(yytext));return TOKEN_LT;}
+">="                  {strcpy(yylval.obj.name,(yytext));return TOKEN_GE;}
+"<="                  {strcpy(yylval.obj.name,(yytext));return TOKEN_LE;}
+"!="                  {strcpy(yylval.obj.name,(yytext));return TOKEN_NE;}
+"^"                   {strcpy(yylval.obj.name,(yytext));return TOKEN_XOR;}
+"||"                  {strcpy(yylval.obj.name,(yytext));return TOKEN_OR;}
+"&&"                  {strcpy(yylval.obj.name,(yytext));return TOKEN_AND;}
+"="                   {strcpy(yylval.obj.name,(yytext));return TOKEN_ASSIGN;}
+"{"                   {strcpy(yylval.obj.name,(yytext));return TOKEN_LBRACE;}
+"}"                   {strcpy(yylval.obj.name,(yytext));return TOKEN_RBRACE;}
+"."                   {strcpy(yylval.obj.name,(yytext));return TOKEN_DOT;}
+";"                   {strcpy(yylval.obj.name,(yytext));return TOKEN_PONTOEVIRGULA;}
+","                   {strcpy(yylval.obj.name,(yytext));return TOKEN_VIRGULA;}
+"("                   {strcpy(yylval.obj.name,(yytext));return TOKEN_LPAREN;}
+")"                   {strcpy(yylval.obj.name,(yytext));return TOKEN_RPAREN;}
+[\n]                        { countn++; }
+[ \t]*                      { ; }
 
 .               { yyerror("Unrecognized character"); }
 
