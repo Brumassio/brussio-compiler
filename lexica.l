@@ -24,16 +24,22 @@ FLOAT[0-9]+.[0-9]*
 "for"                 {strcpy(yylval.obj.name,(yytext));return TOKEN_FOR;}
 "while"               {strcpy(yylval.obj.name,(yytext));return TOKEN_WHILE;}
 "int"                 {strcpy(yylval.obj.name,(yytext));return TOKEN_INT;}
-"char"                {strcpy(yylval.obj.name,(yytext));return TOKEN_CHAR;}
+
 "double"              {strcpy(yylval.obj.name,(yytext));return TOKEN_IDOUBLE;}
 "void"                {strcpy(yylval.obj.name,(yytext));return TOKEN_VOID;} 
 "master"              {strcpy(yylval.obj.name,(yytext));return TOKEN_MASTER;}
 "#include"            {strcpy(yylval.obj.name,(yytext));return TOKEN_INCLUDE;}
 "print"               {strcpy(yylval.obj.name,(yytext));return TOKEN_PRINT;}
+"scan"                {strcpy(yylval.obj.name,(yytext));return TOKEN_SCAN;}
+['].[']               {strcpy(yylval.obj.name,(yytext));return TOKEN_CHAR;}
+['].*[']              {strcpy(yylval.obj.name,(yytext));return TOKEN_STRING;}
+"true"                {strcpy(yylval.obj.name,(yytext));return TOKEN_TRUE;}
+"false"               {strcpy(yylval.obj.name,(yytext));return TOKEN_FALSE;}
 "return"              {strcpy(yylval.obj.name,(yytext));return TOKEN_RETURN;}
 "break"               {strcpy(yylval.obj.name,(yytext));return TOKEN_BREAK;}
 "continue"            {strcpy(yylval.obj.name,(yytext));return TOKEN_CONTINUE;}
 "class"               {strcpy(yylval.obj.name,(yytext));return TOKEN_CLASS;}
+{ID}                  {strcpy(yylval.obj.name,(yytext));return TOKEN_IDENTIFICADOR;}
 {DIGIT}               {strcpy(yylval.obj.name,(yytext));return TOKEN_INTEGER;}
 {FLOAT}               {strcpy(yylval.obj.name,(yytext));return TOKEN_DOUBLE;}
 "+"                   {strcpy(yylval.obj.name,(yytext));return TOKEN_SUM;}

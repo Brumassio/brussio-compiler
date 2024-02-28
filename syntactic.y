@@ -9,7 +9,7 @@ void yyerror(char *s);
 void insert_type();
 int search(char *);
 void insert_type();
-
+void add(char);
 
 
 int count=0;
@@ -93,6 +93,10 @@ struct noArvore {
 %token <obj> TOKEN_VIRGULA
 %token <obj> TOKEN_LPAREN
 %token <obj> TOKEN_RPAREN
+%token <obj> TOKEN_SCAN
+%token <obj> TOKEN_STRING
+%token <obj> TOKEN_TRUE
+%token <obj> TOKEN_FALSE
 
 %type <doubleValue> variable
 %type <obj> declaration
@@ -106,6 +110,8 @@ struct noArvore {
 %nonassoc UMINUS
 
 %% /* Grammar rules and actions follow */
+
+program: class_declaration;
 
 declarations: declarations declaration | declaration;
 
@@ -164,25 +170,24 @@ binary_operator : TOKEN_SUM
 
 
 variable: TOKEN_IDENTIFICADOR {
-    add('V'); // Adiciona variável à tabela de símbolos
-    $$ = 0; // Define um valor de retorno para a regra
+    add('V'); 
 };
 
 assignment: variable TOKEN_ASSIGN exp TOKEN_PONTOEVIRGULA ; 
 
-for_stat: TOKEN_FOR {add('K')} '(' exp TOKEN_PONTOEVIRGULA exp TOKEN_PONTOEVIRGULA exp')' tail ;
+for_stat: TOKEN_FOR {add('K');} '(' exp TOKEN_PONTOEVIRGULA exp TOKEN_PONTOEVIRGULA exp')' tail ;
 
-while_stat: TOKEN_WHILE {add('K')} '(' exp ')' tail ;
+while_stat: TOKEN_WHILE {add('K');} '(' exp ')' tail ;
 
 if_stat: TOKEN_IF '(' exp ')' tail else_if_part else_part ;
 
 else_if_part: 
    else_if_part TOKEN_ELSE TOKEN_IF '(' exp ')' tail |
-   TOKEN_ELSE {add('K')} | TOKEN_IF {add('K')} '(' exp ')' tail  |
+   TOKEN_ELSE {add('K');} | TOKEN_IF {add('K');} '(' exp ')' tail  |
    /* empty */
  ; 
 
-else_part: TOKEN_ELSE {add('K')} tail | /* empty */ ; 
+else_part: TOKEN_ELSE {add('K');} tail | /* empty */ ; 
 
 tail: statement | '{' statements '}' ;
 
@@ -194,12 +199,28 @@ statement: if_stat
         | assignment 
         | TOKEN_CONTINUE TOKEN_PONTOEVIRGULA 
         | TOKEN_BREAK  TOKEN_PONTOEVIRGULA
-        | TOKEN_RETURN  TOKEN_PONTOEVIRGULA;
+        | TOKEN_RETURN  TOKEN_PONTOEVIRGULA
+        | printf_statement
+        | scanf_statement;
 
-class_declaration: TOKEN_CLASS TOKEN_IDENTIFICADOR TOKEN_LBRACE class_body TOKEN_RBRACE {
-    add('V'); // Adiciona variável à tabela de símbolos
-    $$ = 0; // Define um valor de retorno para a regra
-};
+declaration_vet: type TOKEN_IDENTIFICADOR '[' exp ']' TOKEN_PONTOEVIRGULA {
+                add('V');
+            }
+            | type TOKEN_IDENTIFICADOR TOKEN_LPAREN exp TOKEN_RPAREN '{' exp_list '}' TOKEN_PONTOEVIRGULA {
+                add('V');
+            }
+            ;
+
+exp_list: /* empty */
+         | exp 
+         | exp_list TOKEN_VIRGULA exp
+         ; 
+printf_statement: TOKEN_PRINT TOKEN_LPAREN exp_list TOKEN_RPAREN TOKEN_PONTOEVIRGULA;
+
+scanf_statement: TOKEN_SCAN TOKEN_LPAREN TOKEN_STRING TOKEN_VIRGULA variable TOKEN_RPAREN TOKEN_PONTOEVIRGULA;
+
+
+class_declaration: TOKEN_CLASS TOKEN_IDENTIFICADOR TOKEN_LBRACE class_body TOKEN_RBRACE;
 
 class_body: class_members;
 
@@ -207,10 +228,7 @@ class_members: class_members class_member | /* empty */;
 
 class_member: attribute_declaration | method_declaration;
 
-attribute_declaration: type TOKEN_IDENTIFICADOR TOKEN_PONTOEVIRGULA {
-  add('V'); 
-  $$ = 0; // Define um valor de retorno para a regra
-};
+attribute_declaration: type TOKEN_IDENTIFICADOR {add('V');} TOKEN_PONTOEVIRGULA;
 
 method_declaration: type TOKEN_IDENTIFICADOR TOKEN_LPAREN parameters_list TOKEN_RPAREN '{' statements '}';
 
@@ -218,7 +236,8 @@ parameters_list: parameter_declaration | parameters_list TOKEN_VIRGULA parameter
 
 parameter_declaration: type TOKEN_IDENTIFICADOR;
 
-program: declarations statements ;
+
+//print: TOKEN_PRINT TOKEN_LPAREN  TOKEN_RPAREN TOKEN_PONTOEVIRGULA;
 
 %%
 

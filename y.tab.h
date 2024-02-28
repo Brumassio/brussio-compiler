@@ -35,8 +35,8 @@
    especially those whose name start with YY_ or yy_.  They are
    private implementation details that can be changed or removed.  */
 
-#ifndef YY_YY_SYNTACTIC_TAB_H_INCLUDED
-# define YY_YY_SYNTACTIC_TAB_H_INCLUDED
+#ifndef YY_YY_Y_TAB_H_INCLUDED
+# define YY_YY_Y_TAB_H_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
@@ -95,14 +95,57 @@ extern int yydebug;
     TOKEN_VIRGULA = 296,           /* TOKEN_VIRGULA  */
     TOKEN_LPAREN = 297,            /* TOKEN_LPAREN  */
     TOKEN_RPAREN = 298,            /* TOKEN_RPAREN  */
-    TOKEN_SCAN = 299,              /* TOKEN_SCAN  */
-    TOKEN_STRING = 300,            /* TOKEN_STRING  */
-    TOKEN_TRUE = 301,              /* TOKEN_TRUE  */
-    TOKEN_FALSE = 302,             /* TOKEN_FALSE  */
-    UMINUS = 303                   /* UMINUS  */
+    UMINUS = 299                   /* UMINUS  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
+/* Token kinds.  */
+#define YYEMPTY -2
+#define YYEOF 0
+#define YYerror 256
+#define YYUNDEF 257
+#define TOKEN_IF 258
+#define TOKEN_ELSE 259
+#define TOKEN_FOR 260
+#define TOKEN_WHILE 261
+#define TOKEN_INT 262
+#define TOKEN_VOID 263
+#define TOKEN_IDOUBLE 264
+#define TOKEN_MASTER 265
+#define TOKEN_INCLUDE 266
+#define TOKEN_PRINT 267
+#define TOKEN_RETURN 268
+#define TOKEN_BREAK 269
+#define TOKEN_CONTINUE 270
+#define TOKEN_CLASS 271
+#define TOKEN_INTEGER 272
+#define TOKEN_CHAR 273
+#define TOKEN_IDENTIFICADOR 274
+#define TOKEN_DOUBLE 275
+#define TOKEN_SUM 276
+#define TOKEN_SUB 277
+#define TOKEN_MULT 278
+#define TOKEN_DIV 279
+#define TOKEN_EQUAL 280
+#define TOKEN_INCREMENT 281
+#define TOKEN_DECREMENT 282
+#define TOKEN_GT 283
+#define TOKEN_LT 284
+#define TOKEN_GE 285
+#define TOKEN_LE 286
+#define TOKEN_NE 287
+#define TOKEN_XOR 288
+#define TOKEN_OR 289
+#define TOKEN_AND 290
+#define TOKEN_ASSIGN 291
+#define TOKEN_LBRACE 292
+#define TOKEN_RBRACE 293
+#define TOKEN_DOT 294
+#define TOKEN_PONTOEVIRGULA 295
+#define TOKEN_VIRGULA 296
+#define TOKEN_LPAREN 297
+#define TOKEN_RPAREN 298
+#define UMINUS 299
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -118,7 +161,7 @@ union YYSTYPE
       struct noArvore *nd;
     } obj;
 
-#line 122 "syntactic.tab.h"
+#line 165 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -133,4 +176,4 @@ extern YYSTYPE yylval;
 int yyparse (void);
 
 
-#endif /* !YY_YY_SYNTACTIC_TAB_H_INCLUDED  */
+#endif /* !YY_YY_Y_TAB_H_INCLUDED  */
